@@ -1,2 +1,3 @@
 # simpleSRE
-A simple project aimed at learning the basics of SRE
+
+A simple project aimed at learning the basics of Site Reliability Engineering
