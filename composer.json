@@ -71,6 +71,7 @@
         }
     },
     "require-dev": {
+        "symfony/debug-bundle": "7.2.*",
         "symfony/maker-bundle": "^1.62"
     }
 }
