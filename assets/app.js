@@ -6,4 +6,11 @@
  */
 
 // any CSS you import will output into a single css file (app.css in this case)
+import React from 'react';
+import ReactDOM from 'react-dom';
 import './styles/app.css';
+import Home from './components/Home';
+
+console.log('Hello app.js!');
+
+ReactDOM.render(<Home />, document.getElementById('root'));
