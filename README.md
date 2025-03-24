@@ -34,3 +34,5 @@ ON DUPLICATE KEY UPDATE count = count + 1;
 SELECT SUM(count) as count FROM simple_sre_db
 
 ```
+
+- Following [this tutorial](https://go.dev/doc/tutorial/database-access) for connecting Go to MySQL
