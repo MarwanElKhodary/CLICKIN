@@ -36,3 +36,8 @@ SELECT SUM(count) as count FROM simple_sre_db
 ```
 
 - Following [this tutorial](https://go.dev/doc/tutorial/database-access) for connecting Go to MySQL
+- How you install packages is as follows:
+  - `go install <the_package_you_want>`
+  - `go get .` to track the module as a dependency
+- [How to Write Go Code](https://go.dev/doc/code)
+- [Effective Go](https://go.dev/doc/effective_go)
