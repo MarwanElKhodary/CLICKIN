@@ -5,8 +5,10 @@ import (
 	"fmt"
 	"log"
 	"math/rand/v2"
+	"net/http"
 	"os"
 
+	"github.com/gin-gonic/gin"
 	"github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
 )
@@ -41,20 +43,31 @@ func main() {
 	}
 	fmt.Println("Connected!")
 
-	cnt, cntErr := Count()
-	if cntErr != nil {
-		log.Fatal(cntErr)
-	}
-	fmt.Printf("Original count: %v\n", cnt)
+	router := gin.Default()
+	router.GET("/count", getCountHandler)
+	router.POST("/count", incrementCountHandler)
+	router.Run("localhost:8080")
+}
 
-	fmt.Printf("Incrementing count by 1!\n")
-	incrementCount(rand.IntN(100), 1)
+func incrementCountHandler(c *gin.Context) {
+	id, err := incrementCount(rand.IntN(100), 1)
 
-	cnt2, cntErr2 := Count()
-	if cntErr2 != nil {
-		log.Fatal(cntErr2)
+	if err != nil {
+		c.AbortWithStatus(http.StatusBadRequest)
+	} else {
+		c.JSON(http.StatusOK, id)
 	}
-	fmt.Printf("New count: %v\n", cnt2)
+}
+
+func getCountHandler(c *gin.Context) {
+	count, err := Count()
+
+	if err != nil {
+		c.AbortWithStatus(http.StatusNotFound)
+	} else {
+		c.JSON(http.StatusOK, count)
+	}
+
 }
 
 func Count() (int, error) {
