@@ -39,4 +39,22 @@ func main() {
 		log.Fatal(pingErr)
 	}
 	fmt.Println("Connected!")
+
+	cnt, cntErr := Count()
+	if cntErr != nil {
+		log.Fatal(cntErr)
+	}
+	fmt.Printf("Count found: %v\n", cnt)
+}
+
+func Count() (int, error) {
+	var cnt int
+	row := db.QueryRow("SELECT SUM(count) as count FROM count_table")
+	err := row.Scan(&cnt)
+
+	if err != nil && err != sql.ErrNoRows {
+		return 0, fmt.Errorf("Count: couldn't get count")
+	}
+
+	return cnt, nil
 }
