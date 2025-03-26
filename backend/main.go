@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"math/rand/v2"
 	"os"
 
 	"github.com/go-sql-driver/mysql"
@@ -44,7 +45,16 @@ func main() {
 	if cntErr != nil {
 		log.Fatal(cntErr)
 	}
-	fmt.Printf("Count found: %v\n", cnt)
+	fmt.Printf("Original count: %v\n", cnt)
+
+	fmt.Printf("Incrementing count by 1!\n")
+	incrementCount(rand.IntN(100), 1)
+
+	cnt2, cntErr2 := Count()
+	if cntErr2 != nil {
+		log.Fatal(cntErr2)
+	}
+	fmt.Printf("New count: %v\n", cnt2)
 }
 
 func Count() (int, error) {
@@ -57,4 +67,19 @@ func Count() (int, error) {
 	}
 
 	return cnt, nil
+}
+
+func incrementCount(slot int, count int) (int64, error) {
+	result, err := db.Exec("INSERT INTO count_table (slot, count) VALUES (?, ?)", slot, count)
+
+	if err != nil {
+		return 0, fmt.Errorf("incrementCount: %v", err)
+	}
+
+	id, err := result.LastInsertId()
+	if err != nil {
+		return 0, fmt.Errorf("incrementCount: %v", err)
+	}
+
+	return id, nil
 }
