@@ -24,6 +24,9 @@ A simple project aimed at learning the basics of Site Reliability Engineering
 - `create-tables.sql` notes:
 
 ```sql
+--To use db in MySQL CLI:
+use simple_sre_db;
+
 --Typical increment query could look like:
 INSERT INTO simple_sre_db(slot, count)
 VALUES (RAND() * 100, 1)
@@ -31,7 +34,7 @@ ON DUPLICATE KEY UPDATE count = count + 1;
 
 --Getting the count
 --Allows you to execute counter increments in parallel without causing contention and affecting concurrency
-SELECT SUM(count) as count FROM simple_sre_db
+SELECT SUM(count) as count FROM count_table;
 
 ```
 
