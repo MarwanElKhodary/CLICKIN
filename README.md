@@ -44,3 +44,7 @@ SELECT SUM(count) as count FROM count_table;
   - `go get .` to track the module as a dependency
 - [How to Write Go Code](https://go.dev/doc/code)
 - [Effective Go](https://go.dev/doc/effective_go)
+- Some relevant links on project architecture:
+  - [Repository pattern](https://threedots.tech/post/repository-pattern-in-go/)
+  - [Go Backend Rest API services](https://medium.com/@janishar.ali/how-to-architecture-good-go-backend-rest-api-services-14cc4730c05b)
+  - [Simple Go Project Folder Structures](https://medium.com/@janishar.ali/how-to-architecture-good-go-backend-rest-api-services-14cc4730c05b)
