@@ -47,4 +47,6 @@ SELECT SUM(count) as count FROM count_table;
 - Some relevant links on project architecture:
   - [Repository pattern](https://threedots.tech/post/repository-pattern-in-go/)
   - [Go Backend Rest API services](https://medium.com/@janishar.ali/how-to-architecture-good-go-backend-rest-api-services-14cc4730c05b)
-  - [Simple Go Project Folder Structures](https://medium.com/@janishar.ali/how-to-architecture-good-go-backend-rest-api-services-14cc4730c05b)
+  - [Simple Go Project Folder Structures](https://medium.com/@smart_byte_labs/organize-like-a-pro-a-simple-guide-to-go-project-folder-structures-e85e9c1769c2)
+    - For now, basing the project structure on this
+- Go through [this](https://go.dev/tour/methods/1) to understand more about Functions, Methods and Receivers like `func (r *Repository) IncrementCount(slot int, count int) (int64, error) {}`
