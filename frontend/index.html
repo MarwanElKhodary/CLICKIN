@@ -1,33 +1,65 @@
-<!doctype html>
+<!DOCTYPE html>
 <html class="no-js" lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title></title>
-  <link rel="stylesheet" href="css/style.css">
-  <meta name="description" content="">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Click a Button</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <meta name="description" content="Click with your friends and watch the number go up" />
 
-  <meta property="og:title" content="">
-  <meta property="og:type" content="">
-  <meta property="og:url" content="">
-  <meta property="og:image" content="">
-  <meta property="og:image:alt" content="">
+    <meta property="og:title" content="Click a Button" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="" />
+    <meta property="og:image" content="" />
+    <meta property="og:image:alt" content="" />
 
-  <link rel="icon" href="/favicon.ico" sizes="any">
-  <link rel="icon" href="/icon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="icon.png">
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="icon.png" />
 
-  <link rel="manifest" href="site.webmanifest">
-  <meta name="theme-color" content="#fafafa">
+    <link rel="manifest" href="site.webmanifest" />
+    <meta name="theme-color" content="#fafafa" />
 </head>
 
 <body>
+    <header class="header">
+        <div class="container">
+            <h1>Click a button</h1>
+            <h2>Watch the number go up with your friends</h2>
+        </div>
+    </header>
 
-  <!-- Add your site or application content here -->
-  <p>Hello world! This is HTML5 Boilerplate.</p>
-  <script src="js/app.js"></script>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <div class="navbar-left">
+                    <p>
+                        A website by
+                        <a href="https://marwan.world" target="_blank">Marwan</a>
+                    </p>
+                </div>
+                <div class="navbar-right">
+                    <a href="#" class="icon-link" title="Blog Post"><i class="fas fa-blog"></i></a>
+                    <a href="#" class="icon-link" title="GitHub Repository"><i class="fab fa-github"></i></a>
+                    <a href="#" class="icon-link" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </nav>
 
+    <main class="main-content">
+        <div class="container">
+            <div class="counter-container">
+                <div class="counter-display">
+                    <span id="counter">0</span>
+                </div>
+                <button id="increment-button" class="btn">Click Me</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/app.js"></script>
 </body>
 
 </html>
