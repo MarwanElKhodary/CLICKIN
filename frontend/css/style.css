@@ -84,6 +84,122 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.navbar {
+  background-color: #333;
+  color: white;
+  padding: 15px 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-left a {
+  color: #4fd1c5;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.navbar-left a:hover {
+  color: #38b2ac;
+}
+
+.navbar-right {
+  display: flex;
+  gap: 20px;
+}
+
+.icon-link {
+  color: white;
+  font-size: 1.2rem;
+  transition: color 0.3s ease;
+}
+
+.icon-link:hover {
+  color: #4fd1c5;
+}
+
+.header {
+  text-align: center;
+  padding: 40px 0;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 3rem;
+  color: #2d3748;
+}
+
+.header h2 {
+  margin: 10px 0 0;
+  font-weight: 400;
+  color: #718096;
+}
+
+.main-content {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.counter-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.counter-display {
+  font-size: 6rem;
+  font-weight: bold;
+  color: #2d3748;
+  background-color: white;
+  border-radius: 16px;
+  padding: 20px 40px;
+  min-width: 200px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.counter-display:hover {
+  transform: translateY(-5px);
+}
+
+.btn {
+  background-color: #4fd1c5;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover {
+  background-color: #38b2ac;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 /* ==========================================================================
    Helper classes
    ========================================================================== */
