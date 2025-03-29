@@ -100,7 +100,7 @@ body {
 body {
 	line-height: 1.5;
 	-webkit-font-smoothing: antialiased;
-	font-family: "Lato", sans-serif;
+	font-family: "Futura PT Book", sans-serif;
 
 	--slate-900: #0f172a;
 	--slate-800: #1e293b;
@@ -352,6 +352,62 @@ h6 {
 		font-size: clamp(1.5rem, 6vw, 2.5rem);
 		padding: 0.75rem;
 	}
+}
+
+@font-face {
+	font-family: "Futura PT Book";
+	font-style: normal;
+	font-weight: normal;
+	src: local("Futura PT Book"),
+		url("fonts/FuturaCyrillicBook.woff") format("woff");
+}
+
+@font-face {
+	font-family: "Futura PT Light";
+	font-style: normal;
+	font-weight: normal;
+	src: local("Futura PT Light"),
+		url("fonts/FuturaCyrillicLight.woff") format("woff");
+}
+
+@font-face {
+	font-family: "Futura PT Medium";
+	font-style: normal;
+	font-weight: normal;
+	src: local("Futura PT Medium"),
+		url("fonts/FuturaCyrillicMedium.woff") format("woff");
+}
+
+@font-face {
+	font-family: "Futura PT Demi";
+	font-style: normal;
+	font-weight: normal;
+	src: local("Futura PT Demi"),
+		url("fonts/FuturaCyrillicDemi.woff") format("woff");
+}
+
+@font-face {
+	font-family: "Futura PT Heavy";
+	font-style: normal;
+	font-weight: normal;
+	src: local("Futura PT Heavy"),
+		url("fonts/FuturaCyrillicHeavy.woff") format("woff");
+}
+
+@font-face {
+	font-family: "Futura PT Bold";
+	font-style: normal;
+	font-weight: normal;
+	src: local("Futura PT Bold"),
+		url("fonts/FuturaCyrillicBold.woff") format("woff");
+}
+
+@font-face {
+	font-family: "Futura PT Extra Bold";
+	font-style: normal;
+	font-weight: normal;
+	src: local("Futura PT Extra Bold"),
+		url("fonts/FuturaCyrillicExtraBold.woff") format("woff");
 }
 
 /* ==========================================================================
