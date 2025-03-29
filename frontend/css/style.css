@@ -206,8 +206,7 @@ h6 {
 
 .subtitle {
 	margin: 0;
-	font-size: 0.85rem;
-	color: #718096;
+	color: #4a5568;
 }
 
 .header-right {
@@ -234,7 +233,6 @@ h6 {
 }
 
 .credit-text {
-	font-size: 0.75rem;
 	color: #4a5568;
 }
 
