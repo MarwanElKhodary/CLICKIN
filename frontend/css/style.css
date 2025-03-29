@@ -12,7 +12,7 @@
    ========================================================================== */
 
 html {
-	color: #222;
+	color: var(--rock);
 	font-size: 1em;
 	line-height: 1.4;
 }
@@ -101,6 +101,11 @@ body {
 	line-height: 1.5;
 	-webkit-font-smoothing: antialiased;
 	font-family: "Futura PT Book", sans-serif;
+
+	--rock: #2b3333;
+	--gasoline: #cce649;
+	--cream: #f6f3e6;
+	--grey: #6d6d6d;
 
 	--slate-900: #0f172a;
 	--slate-800: #1e293b;
