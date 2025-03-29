@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -21,6 +22,7 @@ func main() {
 	handler := NewHandler(service)
 
 	router := gin.Default()
+	router.Use(cors.Default())
 	handler.SetupRoutes(router)
 	router.Run("localhost:8080")
 }
