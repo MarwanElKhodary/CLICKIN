@@ -14,14 +14,14 @@
 		<meta property="og:url" content="" />
 		<meta property="og:image" content="" />
 		<meta property="og:image:alt" content="" />
-		<!-- Not sure why I need this      -->
+		<!-- Not sure why I need this -->
 		<meta name="htmx-config" content='{"selfRequestsOnly":false}' />
 
 		<link rel="icon" href="/favicon.ico" sizes="any" />
 		<link rel="icon" href="/icon.svg" type="image/svg+xml" />
 		<link rel="apple-touch-icon" href="icon.png" />
 
-		<!-- Font Awesome for icons TODO: Replace with SVGS -->
+		<!-- TODO: Remove this-->
 		<link
 			rel="stylesheet"
 			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -31,23 +31,16 @@
 	</head>
 
 	<body>
-		<header class="header">
-			<div class="container">
-				<h1>Click a button</h1>
-				<h2>Watch the number go up with your friends</h2>
-			</div>
-		</header>
-
-		<nav class="navbar">
-			<div class="container">
-				<div class="navbar-content">
-					<div class="navbar-left">
-						<p>
-							A website by
-							<a href="https://marwan.world" target="_blank">Marwan</a>
-						</p>
+		<div id="root">
+			<div class="header-bar">
+				<div class="header-left">
+					<div class="title-area">
+						<h1>Click a button</h1>
+						<p class="subtitle">Watch the number go up with your friends</p>
 					</div>
-					<div class="navbar-right">
+				</div>
+				<div class="header-right">
+					<div class="icon-container">
 						<a href="#" class="icon-link" title="Blog Post">
 							<i class="fas fa-blog"></i>
 						</a>
@@ -58,12 +51,16 @@
 							<i class="fab fa-linkedin"></i>
 						</a>
 					</div>
+					<div class="credit-text">
+						<p>
+							A website by
+							<a href="https://marwan.world" target="_blank">Marwan</a>
+						</p>
+					</div>
 				</div>
 			</div>
-		</nav>
 
-		<main class="main-content">
-			<div class="container">
+			<main class="main-content">
 				<div class="counter-container">
 					<div class="counter-display">
 						<span id="counter">0</span>
@@ -75,8 +72,8 @@
 						Click Me
 					</button>
 				</div>
-			</div>
-		</main>
+			</main>
+		</div>
 
 		<script src="js/vendor/htmx.min.js"></script>
 		<script>
@@ -87,7 +84,5 @@
 					"application/x-www-form-urlencoded; charset=UTF-8";
 			});
 		</script>
-
-		<!-- <script src="js/app.js"></script> -->
 	</body>
 </html>

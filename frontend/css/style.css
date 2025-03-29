@@ -179,80 +179,90 @@ h6 {
     Author's custom styles
    ========================================================================== */
 
-.container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-.navbar {
-  background-color: #333;
-  color: white;
-  padding: 15px 0;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.navbar-content {
+/* Main header bar styles */
+.header-bar {
+  background-color: #f0f4f8; /* Light blue-gray like everyuuid */
   display: flex;
   justify-content: space-between;
+  align-items: flex-start; /* Align to top so the credit text can align under icons */
+  padding: 0.75rem 1rem;
+  width: 100%;
+}
+
+.header-left {
+  display: flex;
   align-items: center;
 }
 
-.navbar-left a {
-  color: #4fd1c5;
-  text-decoration: none;
-  transition: color 0.3s ease;
+.title-area {
+  text-align: left;
 }
 
-.navbar-left a:hover {
-  color: #38b2ac;
+.title-area h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2d3748;
 }
 
-.navbar-right {
+.subtitle {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #718096;
+}
+
+.header-right {
   display: flex;
-  gap: 20px;
+  flex-direction: column;
+  align-items: flex-end; /* Right align both the icons and credit text */
+  gap: 0.5rem;
+}
+
+.icon-container {
+  display: flex;
+  gap: 1rem;
 }
 
 .icon-link {
-  color: white;
-  font-size: 1.2rem;
-  transition: color 0.3s ease;
+  color: #4a5568;
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: color 0.2s ease;
 }
 
 .icon-link:hover {
   color: #4fd1c5;
 }
 
-.header {
-  text-align: center;
-  padding: 40px 0;
+.credit-text {
+  font-size: 0.75rem;
+  color: #4a5568;
 }
 
-.header h1 {
-  margin: 0;
-  font-size: 3rem;
-  color: #2d3748;
+.credit-text a {
+  color: #4fd1c5;
+  text-decoration: none;
+  transition: color 0.2s ease;
 }
 
-.header h2 {
-  margin: 10px 0 0;
-  font-weight: 400;
-  color: #718096;
+.credit-text a:hover {
+  color: #38b2ac;
 }
 
+/* Main content - counter section */
 .main-content {
-  min-height: 60vh;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 80px); /* Adjust based on header height */
+  background-color: var(--slate-300);
 }
 
 .counter-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 30px;
+  gap: 2rem;
 }
 
 .counter-display {
@@ -261,7 +271,7 @@ h6 {
   color: #2d3748;
   background-color: white;
   border-radius: 16px;
-  padding: 20px 40px;
+  padding: 1.25rem 2.5rem;
   min-width: 200px;
   text-align: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -276,7 +286,7 @@ h6 {
   background-color: #4fd1c5;
   color: white;
   border: none;
-  padding: 15px 30px;
+  padding: 0.9rem 1.9rem;
   font-size: 1.2rem;
   border-radius: 8px;
   cursor: pointer;
