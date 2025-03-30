@@ -13,7 +13,7 @@
 
 html {
 	color: var(--rock);
-	font-size: 1em;
+	font-size: 1.1em;
 	line-height: 1.4;
 }
 
@@ -25,12 +25,12 @@ html {
  */
 
 ::-moz-selection {
-	background: #b3d4fc;
+	background: var(--gasoline);
 	text-shadow: none;
 }
 
 ::selection {
-	background: #b3d4fc;
+	background: var(--gasoline);
 	text-shadow: none;
 }
 
@@ -94,7 +94,7 @@ textarea {
 }
 html,
 body {
-    overflow: hidden;
+	overflow: hidden;
 	height: 100%;
 	overscroll-behavior: none;
 }
@@ -227,29 +227,18 @@ h6 {
 	gap: 1rem;
 }
 
-.icon-link {
-	color: #4a5568;
-	text-decoration: none;
-	font-size: 1.1rem;
-	transition: color 0.2s ease;
-}
-
-.icon-link:hover {
-	color: #4fd1c5;
-}
-
 .credit-text {
-	color: #4a5568;
+	color: var(--grey);
 }
 
 .credit-text a {
-	color: #4fd1c5;
-	text-decoration: none;
+	color: var(--rock);
+	text-decoration: underline;
 	transition: color 0.2s ease;
 }
 
 .credit-text a:hover {
-	color: #38b2ac;
+	color: var(--gasoline);
 }
 
 .main-content {
@@ -305,6 +294,29 @@ h6 {
 .btn:active {
 	transform: translateY(1px);
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Because this relies on styling of the stroke and not the fill */
+.blog-svg {
+	fill: none;
+	stroke: var(--grey);
+	stroke-width: 2;
+	width: 1.1rem;
+	height: 1.1rem;
+}
+.blog-svg:hover {
+	stroke: var(--gasoline);
+}
+
+.icon-svg {
+	fill: var(--grey);
+	stroke: none;
+	stroke-width: 1;
+	width: 1.1rem;
+	height: 1.1rem;
+}
+.icon-svg:hover {
+	fill: var(--gasoline);
 }
 
 @media only screen and (max-width: 768px) {
