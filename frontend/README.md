@@ -14,3 +14,4 @@
 - This current commit works with [this solution](https://github.com/bigskysoftware/htmx/issues/779) but is super ugly and I still don't understand cors and how this is supposed to actually work - I kinda like HTMX tho
   - Need to understand more about why this error is occuring and why I need this
 - Get button inspo from [here](https://www.joshwcomeau.com/animation/3d-button/)
+- Header after visiting header link is blue
