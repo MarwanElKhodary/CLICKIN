@@ -274,8 +274,9 @@ h6 {
 }
 
 .btn {
-	background-color: #4fd1c5;
-	color: white;
+	background-color: var(--rock);
+	color: var(--cream);
+	font-family: "Futura PT Heavy", sans-serif;
 	border: none;
 	padding: 0.9rem 1.9rem;
 	font-size: 1.2rem;
@@ -286,7 +287,8 @@ h6 {
 }
 
 .btn:hover {
-	background-color: #38b2ac;
+	background-color: var(--gasoline);
+	color: var(--rock);
 	transform: translateY(-2px);
 	box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 }
