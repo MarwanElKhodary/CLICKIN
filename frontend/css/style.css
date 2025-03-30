@@ -207,7 +207,6 @@ h6 {
 	margin: 0;
 	font-size: 1.5rem;
 	font-weight: 600;
-	color: #2d3748;
 }
 
 .subtitle {
@@ -319,6 +318,17 @@ h6 {
 }
 .icon-svg:hover {
 	fill: var(--gasoline);
+}
+
+.header-text a:link {
+	font-family: "Futura PT Medium", sans-serif;
+	text-decoration: none;
+	color: var(--rock);
+}
+
+.header-text a:hover {
+	text-decoration: underline;
+	color: var(--rock);
 }
 
 @media only screen and (max-width: 768px) {
