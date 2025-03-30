@@ -194,19 +194,15 @@ h6 {
 	width: 100%;
 }
 
-.title-area {
-	text-align: left;
+.header-text a:link {
+	font-family: "Futura PT Medium", sans-serif;
+	text-decoration: none;
+	color: var(--rock);
 }
 
-.title-area h1 {
-	margin: 0;
-	font-size: 1.5rem;
-	font-weight: 600;
-}
-
-.subtitle {
-	margin: 0;
-	color: #4a5568;
+.header-text a:hover {
+	text-decoration: underline;
+	color: var(--rock);
 }
 
 .header-left {
@@ -221,6 +217,20 @@ h6 {
 	gap: 1.1rem; /* ? There has to be a better way of aligning this at the bottom with header left */
 }
 
+.title-area {
+	text-align: left;
+}
+
+.title-area h1 {
+	margin: 0;
+	font-size: 1.5rem;
+	font-weight: 600;
+}
+
+.subtitle {
+	margin: 0;
+	color: #4a5568;
+}
 .icon-container {
 	display: flex;
 	gap: 1rem;
@@ -240,7 +250,7 @@ h6 {
 	color: var(--gasoline);
 }
 
-.main-content {
+.button-container {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -272,6 +282,7 @@ h6 {
 	transform: translateY(-5px);
 }
 
+/*** Button ***/
 .btn {
 	background-color: var(--rock);
 	color: var(--cream);
@@ -297,6 +308,7 @@ h6 {
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/*** SVGs ***/
 /* Because this relies on styling of the stroke and not the fill */
 .blog-svg {
 	fill: none;
@@ -320,17 +332,6 @@ h6 {
 	fill: var(--gasoline);
 }
 
-.header-text a:link {
-	font-family: "Futura PT Medium", sans-serif;
-	text-decoration: none;
-	color: var(--rock);
-}
-
-.header-text a:hover {
-	text-decoration: underline;
-	color: var(--rock);
-}
-
 @media only screen and (max-width: 768px) {
 	.header-bar {
 		flex-direction: column;
@@ -345,15 +346,15 @@ h6 {
 		justify-content: center;
 	}
 
-	.title-area {
-		text-align: center;
-	}
-
 	.header-right {
 		width: 100%;
 		flex-direction: row;
 		justify-content: space-between;
 		align-items: center;
+	}
+
+	.title-area {
+		text-align: center;
 	}
 
 	.icon-container {
@@ -382,6 +383,7 @@ h6 {
 	}
 }
 
+/*** Fonts ***/
 @font-face {
 	font-family: "Futura PT Book";
 	font-style: normal;
