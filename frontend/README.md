@@ -15,3 +15,4 @@
   - Need to understand more about why this error is occuring and why I need this
 - Get button inspo from [here](https://www.joshwcomeau.com/animation/3d-button/)
 - Header after visiting header link is blue
+- When selecting the credit-text, the text colour is gasoline even though the selection is gasoline
