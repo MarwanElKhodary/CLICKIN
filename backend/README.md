@@ -54,3 +54,5 @@ SELECT SUM(count) as count FROM count_table;
   - [About stack vs heap in Go](https://medium.com/eureka-engineering/understanding-allocations-in-go-stack-heap-memory-9a2631b5035d)
   - [When to use pointers](https://medium.com/@meeusdylan/when-to-use-pointers-in-go-44c15fe04eac)
   - Cool command "escape analysis": `go build -gcflags="-m"`
+- What happens if a user is on different browsers on the same pc?
+- Should we consider the option of using a websocket when the user is spamming the button? Is that better than making HTTP calls on every click?
