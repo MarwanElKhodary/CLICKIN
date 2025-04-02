@@ -31,6 +31,7 @@ func (h *Handler) incrementCountHandler(c *gin.Context) {
 		c.AbortWithStatus(http.StatusBadRequest)
 	} else {
 		// ! For now, this works as the id is incremented by 1, but consider a better method
+		// ! This should be plaintext - or consider HTML
 		c.JSON(http.StatusOK, id)
 	}
 }

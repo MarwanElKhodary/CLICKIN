@@ -10,6 +10,7 @@ type Repository struct {
 	db *sql.DB
 }
 
+// TODO: Look into using an ORM? for security
 // TODO: Investigate if this is actually necessary
 // I guess it makes sense in the future, but not so much right now
 func NewRepository(db *sql.DB) *Repository {

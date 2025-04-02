@@ -57,3 +57,4 @@ SELECT SUM(count) as count FROM count_table;
   - Cool command "escape analysis": `go build -gcflags="-m"`
 - What happens if a user is on different browsers on the same pc?
 - Should we consider the option of using a websocket when the user is spamming the button? Is that better than making HTTP calls on every click?
+- Details on [how to deploy a Go/HTMX application](https://community.aws/content/2hYjbCwWyM3KAuR77j9DqE1P4p7/deploying-a-go-application-with-htmx-to-aws-elastic-beanstalk-a-step-by-step-guide?lang=en)
