@@ -10,7 +10,8 @@
   - To create a binary:
     - `go build .` then run the `<filename>.exe`
 - Run SQL code:
-  - `source C:\Users\Marwan\Desktop\projects\simpleSRE\backend\create-tables.sql`
+  - `use simple_sre_db;`
+  - `source C:/Users/Marwan/Desktop/projects/simpleSRE/backend/create-tables.sql;`
 
 ### Notes
 
