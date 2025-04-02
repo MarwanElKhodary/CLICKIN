@@ -32,7 +32,7 @@
 
 	<body>
 		<div id="root">
-			<div class="header-bar">
+			<nav class="header-bar">
 				<div class="header-left">
 					<div class="title-area">
 						<h1 class="header-text">
@@ -94,7 +94,7 @@
 						</p>
 					</div>
 				</div>
-			</div>
+			</nav>
 
 			<main class="button-container">
 				<div class="counter-container">
@@ -112,6 +112,7 @@
 		</div>
 
 		<script src="js/vendor/htmx.min.js"></script>
+		<!--TODO: Is this a security risk? -->
 		<script>
 			// Remove all extra htmx headers, re-add content-type.
 			document.body.addEventListener("htmx:configRequest", function (event) {
