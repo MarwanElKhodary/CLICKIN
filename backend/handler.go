@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -26,15 +27,21 @@ func (h *Handler) SetupRoutes(router *gin.Engine) {
 // ? How come this function doesn't start with a capital letter but others do?
 // ! A 204 OPTIONS call happens everytime there's a post request
 func (h *Handler) incrementCountHandler(c *gin.Context) {
-	id, err := h.service.IncrementRandomCount()
+	_, err := h.service.IncrementRandomCount()
 
 	if err != nil {
 		c.AbortWithStatus(http.StatusBadRequest)
-	} else {
-		// ! For now, this works as the id is incremented by 1, but consider a better method
-		// ! This should be plaintext - or consider HTML
-		c.JSON(http.StatusOK, id)
+		return
 	}
+
+	count, err := h.service.GetTotalCount()
+
+	if err != nil {
+		c.AbortWithStatus(http.StatusInternalServerError)
+		return
+	}
+
+	c.String(http.StatusOK, fmt.Sprintf("%d", count))
 }
 
 func (h *Handler) getCountHandler(c *gin.Context) {
@@ -42,7 +49,8 @@ func (h *Handler) getCountHandler(c *gin.Context) {
 
 	if err != nil {
 		c.AbortWithStatus(http.StatusNotFound)
-	} else {
-		c.JSON(http.StatusOK, count)
+		return
 	}
+
+	c.String(http.StatusOK, fmt.Sprintf("%d", count))
 }
