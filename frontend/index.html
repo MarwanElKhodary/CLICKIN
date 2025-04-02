@@ -107,8 +107,11 @@
 							hx-swap="innerHTML">
 						</span>
 					</div>
+					<!-- ! Similarly, what happens if this request fails?  -->
 					<button
-						hx-get="http://localhost:8080/count"
+						hx-post="http://localhost:8080/count"
+						hx-target="#counter"
+						hx-swap="innerHTML"
 						id="increment-button"
 						class="btn">
 						Click Me

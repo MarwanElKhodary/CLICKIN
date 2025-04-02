@@ -23,12 +23,14 @@ func (h *Handler) SetupRoutes(router *gin.Engine) {
 }
 
 // ? How come this function doesn't start with a capital letter but others do?
+// ! A 204 OPTIONS call happens everytime there's a post request
 func (h *Handler) incrementCountHandler(c *gin.Context) {
 	id, err := h.service.IncrementRandomCount()
 
 	if err != nil {
 		c.AbortWithStatus(http.StatusBadRequest)
 	} else {
+		// ! For now, this works as the id is incremented by 1, but consider a better method
 		c.JSON(http.StatusOK, id)
 	}
 }
