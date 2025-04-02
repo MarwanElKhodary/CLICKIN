@@ -99,7 +99,13 @@
 			<main class="button-container">
 				<div class="counter-container">
 					<div class="counter-display">
-						<span id="counter">1,000,000,000</span>
+						<!-- ! What happens if the get request fails?  -->
+						<span
+							id="counter"
+							hx-get="http://localhost:8080/count"
+							hx-trigger="load"
+							hx-swap="innerHTML">
+						</span>
 					</div>
 					<button
 						hx-get="http://localhost:8080/count"
