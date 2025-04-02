@@ -18,6 +18,7 @@ func NewHandler(service *Service) *Handler {
 }
 
 func (h *Handler) SetupRoutes(router *gin.Engine) {
+	// ? Maybe change the name to /get-count and /update-count
 	router.GET("/count", h.getCountHandler)
 	router.POST("/count", h.incrementCountHandler)
 }
