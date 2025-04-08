@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"net/http"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -23,6 +24,7 @@ func main() {
 	handler := NewHandler(service)
 
 	router := gin.Default()
+	router.StaticFS("/index.html", http.Dir("../frontend"))
 	router.Use(cors.Default())
 	handler.SetupRoutes(router)
 	router.Run("localhost:8080")
