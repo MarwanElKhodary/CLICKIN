@@ -34,6 +34,14 @@ func (h *Handler) SetupRoutes(router *gin.Engine) {
 			gin.H{}, //Used to add headers
 		)
 	})
+
+	router.NoRoute(func(c *gin.Context) {
+		c.HTML(
+			http.StatusOK,
+			"index.html",
+			gin.H{}, //Used to add headers
+		)
+	})
 	// ? Maybe change the name to /get-count and /update-count
 	router.GET("/count", h.getCountHandler)
 	router.POST("/count", h.incrementCountHandler)
