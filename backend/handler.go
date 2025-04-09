@@ -20,6 +20,7 @@ func NewHandler(service *Service) *Handler {
 }
 
 func (h *Handler) SetupRoutes(router *gin.Engine) {
+	router.SetTrustedProxies(nil)
 	router.Use(cors.Default())
 
 	router.LoadHTMLFiles("../frontend/index.html")
