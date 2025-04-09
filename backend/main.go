@@ -35,7 +35,6 @@ func main() {
 			gin.H{}, //Used to add headers
 		)
 	})
-	router.StaticFS("/index.html", http.Dir("../frontend"))
 	router.Use(cors.Default())
 	handler.SetupRoutes(router)
 	router.Run("localhost:8080")
