@@ -24,6 +24,7 @@ func main() {
 	handler := NewHandler(service)
 
 	router := gin.Default()
+	//TODO: Move this somewhere else
 	router.LoadHTMLFiles("../frontend/index.html")
 	router.Static("/css", "../frontend/css/")
 	router.Static("/js", "../frontend/js/")
