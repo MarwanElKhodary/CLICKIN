@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -19,13 +20,25 @@ func NewHandler(service *Service) *Handler {
 }
 
 func (h *Handler) SetupRoutes(router *gin.Engine) {
+	router.Use(cors.Default())
+
+	router.LoadHTMLFiles("../frontend/index.html")
+	router.Static("/css", "../frontend/css/")
+	router.Static("/js", "../frontend/js/")
+
+	router.GET("/", func(c *gin.Context) {
+		c.HTML(
+			http.StatusOK,
+			"index.html",
+			gin.H{}, //Used to add headers
+		)
+	})
 	// ? Maybe change the name to /get-count and /update-count
 	router.GET("/count", h.getCountHandler)
 	router.POST("/count", h.incrementCountHandler)
 }
 
 // ? How come this function doesn't start with a capital letter but others do?
-// ! A 204 OPTIONS call happens everytime there's a post request
 func (h *Handler) incrementCountHandler(c *gin.Context) {
 	_, err := h.service.IncrementRandomCount()
 
