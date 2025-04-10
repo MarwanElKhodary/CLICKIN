@@ -7,7 +7,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// TODO: Add file server here
 func main() {
 	config, err := LoadConfig()
 	if err != nil {
