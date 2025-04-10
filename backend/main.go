@@ -21,6 +21,7 @@ func main() {
 	handler := NewHandler(service)
 
 	router := gin.Default()
-	handler.SetupRoutes(router)
+	handler.SetupRoutes(router) // ! The router is dependent on the handler at this current stage
+	//TODO: Consider separating the router logic to make testing easier
 	router.Run("localhost:8080")
 }
