@@ -2,30 +2,34 @@ package main
 
 import (
 	"io"
-	"log"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
+	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 )
 
 // ? What is this t * testing.T format?
 // ? Read more about defer
+// ? Read more about global variables in golang
+// ? Read more about `if err := mock.ExpectationsWereMet(); err != nil {` notation
 
-var router *gin.Engine // So that you can use router in both setup and test methods
+var router *gin.Engine
+var mock sqlmock.Sqlmock
 
 // ** This structure found from: https://stackoverflow.com/questions/23729790/how-can-i-do-test-setup-using-the-testing-package-in-go
 func setupTestCase(t *testing.T) func(t *testing.T) {
 	t.Log("setup test case")
 
-	config, err := LoadConfig()
+	db, mockSQL, err := sqlmock.New()
 	if err != nil {
-		log.Fatal(err)
+		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
 	}
+	mock = mockSQL
 
-	repo := NewRepository(config.DB) // TODO: Substitute with mock database
+	repo := NewRepository(db)
 
 	service := NewService(repo)
 
@@ -36,6 +40,7 @@ func setupTestCase(t *testing.T) func(t *testing.T) {
 
 	return func(t *testing.T) {
 		t.Log("teardown test case")
+		db.Close()
 	}
 }
 
@@ -48,19 +53,23 @@ func TestRootRoute(t *testing.T) {
 		expected int
 	}{
 		{"root", "GET", "/", nil, 200},
-		{"getCount", "GET", "/count", nil, 200},
-		{"postCount", "POST", "/count", nil, 200}, // ! This actually increments the count in the database
+		{"getCount", "GET", "/count", nil, 200},   // ! Currently failing
+		{"postCount", "POST", "/count", nil, 200}, // ! Currently failing
 	}
 
 	teardownTestCase := setupTestCase(t)
 	defer teardownTestCase(t)
 
-	w := httptest.NewRecorder()
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
+			w := httptest.NewRecorder()
+
 			req, _ := http.NewRequest(tc.method, tc.url, tc.body)
 			router.ServeHTTP(w, req)
 			assert.Equal(t, tc.expected, w.Code)
+			if err := mock.ExpectationsWereMet(); err != nil { // ! Currently doesn't do anything
+				t.Errorf("not all expectations were met: %v", err)
+			}
 		})
 	}
 }

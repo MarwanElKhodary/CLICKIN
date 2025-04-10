@@ -11,8 +11,8 @@ type Repository struct {
 }
 
 // TODO: Look into using an ORM? for security
-// TODO: Investigate if this is actually necessary
-// I guess it makes sense in the future, but not so much right now
+// TODO: Investigate using the context package and passing it here for mock tests
+// ** Like https://stackoverflow.com/questions/75798345/golang-create-a-mock-database-with-handler-and-call-to-database-using-interfaces
 func NewRepository(db *sql.DB) *Repository {
 	return &Repository{
 		db: db,

@@ -8,6 +8,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// ? What does c *gin.Context do here?
+
 // Handler contains the HTTP handlers and their dependencies
 type Handler struct {
 	service *Service
