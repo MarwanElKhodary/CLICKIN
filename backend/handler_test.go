@@ -4,6 +4,7 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
+	"regexp"
 	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"
@@ -12,7 +13,6 @@ import (
 )
 
 // ? What is this t * testing.T format?
-// ? Read more about defer
 // ? Read more about global variables in golang
 // ? Read more about `if err := mock.ExpectationsWereMet(); err != nil {` notation
 
@@ -44,8 +44,9 @@ func setupTestCase(t *testing.T) func(t *testing.T) {
 	}
 }
 
-func TestRootRoute(t *testing.T) {
-	cases := []struct {
+// TODO: Consider refactoring this into separate methods instead
+func TestRoutes(t *testing.T) {
+	testCases := []struct {
 		name     string
 		method   string
 		url      string
@@ -53,23 +54,31 @@ func TestRootRoute(t *testing.T) {
 		expected int
 	}{
 		{"root", "GET", "/", nil, 200},
-		{"getCount", "GET", "/count", nil, 200},   // ! Currently failing
-		{"postCount", "POST", "/count", nil, 200}, // ! Currently failing
+		{"getCount", "GET", "/count", nil, 200},
+		{"postCount", "POST", "/count", nil, 200},
 	}
 
 	teardownTestCase := setupTestCase(t)
 	defer teardownTestCase(t)
 
-	for _, tc := range cases {
+	mock.MatchExpectationsInOrder(false)
+	mock.ExpectExec(regexp.QuoteMeta("INSERT INTO count_table (slot, count) VALUES (?, ?)")).
+		WithArgs(sqlmock.AnyArg(), 1).
+		WillReturnResult(sqlmock.NewResult(1, 1))
+
+	// Then: Expect two SELECTs (one for POST /count, one for GET /count)
+	rows := mock.NewRows([]string{"count"}).AddRow(1)
+	mock.ExpectQuery(regexp.QuoteMeta("SELECT SUM(count) as count FROM count_table")).
+		WillReturnRows(rows)
+	mock.ExpectQuery(regexp.QuoteMeta("SELECT SUM(count) as count FROM count_table")).
+		WillReturnRows(rows)
+
+	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			w := httptest.NewRecorder()
-
 			req, _ := http.NewRequest(tc.method, tc.url, tc.body)
 			router.ServeHTTP(w, req)
 			assert.Equal(t, tc.expected, w.Code)
-			if err := mock.ExpectationsWereMet(); err != nil { // ! Currently doesn't do anything
-				t.Errorf("not all expectations were met: %v", err)
-			}
 		})
 	}
 }

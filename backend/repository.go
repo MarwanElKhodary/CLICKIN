@@ -25,7 +25,7 @@ func (r *Repository) GetTotalCount() (int, error) {
 	err := row.Scan(&cnt)
 
 	if err != nil && err != sql.ErrNoRows {
-		return 0, fmt.Errorf("GetTotalCount: couldn't get count")
+		return 0, fmt.Errorf("GetTotalCount: couldn't get count") // ! Error message is not helpful
 	}
 
 	return cnt, nil
@@ -35,7 +35,7 @@ func (r *Repository) IncrementCount(slot int, count int) (int64, error) {
 	result, err := r.db.Exec("INSERT INTO count_table (slot, count) VALUES (?, ?)", slot, count)
 
 	if err != nil {
-		return 0, fmt.Errorf("IncrementCount: %v", err)
+		return 0, fmt.Errorf("IncrementCount: %v", err) // ! Error message is not helpful
 	}
 
 	id, err := result.LastInsertId()
