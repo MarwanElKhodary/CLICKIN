@@ -53,9 +53,9 @@ func TestRoutes(t *testing.T) {
 		body     io.Reader
 		expected int
 	}{
-		{"root", "GET", "/", nil, 200},
-		{"getCount", "GET", "/count", nil, 200},
-		{"postCount", "POST", "/count", nil, 200},
+		{"root", "GET", "/", nil, http.StatusOK},
+		{"getCount", "GET", "/count", nil, http.StatusOK},
+		{"postCount", "POST", "/count", nil, http.StatusOK},
 	}
 
 	teardownTestCase := setupTestCase(t)
@@ -66,10 +66,7 @@ func TestRoutes(t *testing.T) {
 		WithArgs(sqlmock.AnyArg(), 1).
 		WillReturnResult(sqlmock.NewResult(1, 1))
 
-	// Then: Expect two SELECTs (one for POST /count, one for GET /count)
 	rows := mock.NewRows([]string{"count"}).AddRow(1)
-	mock.ExpectQuery(regexp.QuoteMeta("SELECT SUM(count) as count FROM count_table")).
-		WillReturnRows(rows)
 	mock.ExpectQuery(regexp.QuoteMeta("SELECT SUM(count) as count FROM count_table")).
 		WillReturnRows(rows)
 
@@ -82,3 +79,31 @@ func TestRoutes(t *testing.T) {
 		})
 	}
 }
+
+// func TestConcurrentIncrements(t *testing.T) {
+// 	teardownTestCase := setupTestCase(t)
+// 	defer teardownTestCase(t)
+
+// 	numRequests := 10
+
+// 	for i := range numRequests {
+// 		mock.ExpectExec(regexp.QuoteMeta("INSERT INTO count_table (slot, count) VALUES (?, ?)")).
+// 			WithArgs(sqlmock.AnyArg(), 1).
+// 			WillReturnResult(sqlmock.NewResult(int64(i+1), 1))
+// 	}
+
+// 	rows := mock.NewRows([]string{"count"}).AddRow(numRequests)
+// 	mock.ExpectQuery(regexp.QuoteMeta("SELECT SUM(count) as count FROM count_table")).
+// 		WillReturnRows(rows)
+
+// 	for range numRequests {
+// 		w := httptest.NewRecorder()
+// 		req, _ := http.NewRequest("POST", "/count", nil)
+// 		router.ServeHTTP(w, req)
+// 		assert.Equal(t, http.StatusOK, w.Code)
+// 	}
+// 	// ? I still hate this notation
+// 	// if err := mock.ExpectationsWereMet(); err != nil {
+// 	// 	t.Errorf("there were unfulfilled expectations: %s", err)
+// 	// }
+// }
