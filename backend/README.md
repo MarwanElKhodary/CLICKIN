@@ -10,7 +10,8 @@
   - To create a binary:
     - `go build .` then run the `<filename>.exe`
 - Run SQL code:
-  - `source C:\Users\Marwan\Desktop\projects\simpleSRE\backend\create-tables.sql`
+  - `use simple_sre_db;`
+  - `source C:/Users/Marwan/Desktop/projects/simpleSRE/backend/create-tables.sql;`
 
 ### Notes
 
@@ -54,3 +55,23 @@ SELECT SUM(count) as count FROM count_table;
   - [About stack vs heap in Go](https://medium.com/eureka-engineering/understanding-allocations-in-go-stack-heap-memory-9a2631b5035d)
   - [When to use pointers](https://medium.com/@meeusdylan/when-to-use-pointers-in-go-44c15fe04eac)
   - Cool command "escape analysis": `go build -gcflags="-m"`
+- What happens if a user is on different browsers on the same pc?
+- Should we consider the option of using a websocket when the user is spamming the button? Is that better than making HTTP calls on every click?
+- Details on [how to deploy a Go/HTMX application](https://community.aws/content/2hYjbCwWyM3KAuR77j9DqE1P4p7/deploying-a-go-application-with-htmx-to-aws-elastic-beanstalk-a-step-by-step-guide?lang=en)
+- Read more about preflight, OPTIONS requests, and setting proper headers to your APIs
+- Tests are following [Table-Driven Tests](https://go.dev/wiki/TableDrivenTests) structure. It currently does not include subtests properly or good takedown, but it's working
+- Good reference on [whether or not I need websockets](https://hntrl.io/posts/you-dont-need-websockets/), although a lot of comments are saying this is bad advice
+- Have to use `go test -race` at some point
+- Based off of [this article](https://netflixtechblog.com/netflixs-distributed-counter-abstraction-8d0c45eb66b2) you should maybe consider restructing the API's request/response to look more like this to have `generation time`
+
+```json
+{
+  "namespace": "my_dataset",
+  "counter_name": "counter123",
+  "delta": 2,
+  "idempotency_token": { 
+    "token": "some_event_id",
+    "generation_time": "2024-10-05T14:48:00Z"
+  }
+}
+```

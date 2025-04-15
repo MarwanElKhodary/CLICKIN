@@ -12,9 +12,9 @@
    ========================================================================== */
 
 html {
-  color: #222;
-  font-size: 1em;
-  line-height: 1.4;
+	color: var(--rock);
+	font-size: 1.2em;
+	line-height: 1.4;
 }
 
 /*
@@ -25,13 +25,13 @@ html {
  */
 
 ::-moz-selection {
-  background: #b3d4fc;
-  text-shadow: none;
+	background: var(--gasoline);
+	text-shadow: none;
 }
 
 ::selection {
-  background: #b3d4fc;
-  text-shadow: none;
+	background: var(--gasoline);
+	text-shadow: none;
 }
 
 /*
@@ -39,12 +39,12 @@ html {
  */
 
 hr {
-  display: block;
-  height: 1px;
-  border: 0;
-  border-top: 1px solid #ccc;
-  margin: 1em 0;
-  padding: 0;
+	display: block;
+	height: 1px;
+	border: 0;
+	border-top: 1px solid #ccc;
+	margin: 1em 0;
+	padding: 0;
 }
 
 /*
@@ -59,7 +59,7 @@ iframe,
 img,
 svg,
 video {
-  vertical-align: middle;
+	vertical-align: middle;
 }
 
 /*
@@ -67,9 +67,9 @@ video {
  */
 
 fieldset {
-  border: 0;
-  margin: 0;
-  padding: 0;
+	border: 0;
+	margin: 0;
+	padding: 0;
 }
 
 /*
@@ -77,7 +77,7 @@ fieldset {
  */
 
 textarea {
-  resize: vertical;
+	resize: vertical;
 }
 
 /* ==========================================================================
@@ -87,79 +87,85 @@ textarea {
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 * {
-  margin: 0;
+	margin: 0;
 }
 html,
 body {
-  height: 100%;
-  overscroll-behavior: none;
+	overflow: hidden;
+	height: 100%;
+	overscroll-behavior: none;
 }
 body {
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-  font-family: "Lato", sans-serif;
+	line-height: 1.5;
+	-webkit-font-smoothing: antialiased;
+	font-family: "Futura PT Book", sans-serif;
 
-  --slate-900: #0f172a;
-  --slate-800: #1e293b;
-  --slate-700: #334155;
-  --slate-500: #64748b;
-  --slate-300: #cbd5e1;
-  --slate-400: #94a3b8;
-  --slate-200: #e2e8f0;
-  --slate-100: #f1f5f9;
-  --slate-50: #f8fafc;
+	--rock: #2b3333;
+	--gasoline: #cce649;
+	--cream: #f6f3e6;
+	--grey: #6d6d6d;
 
-  --zinc-900: #18181b;
-  --neutral-900: #171717;
-  --neutral-800: #262626;
-  --neutral-700: #404040;
-  --neutral-600: #525252;
-  --neutral-500: #737373;
-  --neutral-400: #a3a3a3;
-  --neutral-300: #d4d4d4;
+	--slate-900: #0f172a;
+	--slate-800: #1e293b;
+	--slate-700: #334155;
+	--slate-500: #64748b;
+	--slate-300: #cbd5e1;
+	--slate-400: #94a3b8;
+	--slate-200: #e2e8f0;
+	--slate-100: #f1f5f9;
+	--slate-50: #f8fafc;
 
-  --emerald-100: #d1fae5;
+	--zinc-900: #18181b;
+	--neutral-900: #171717;
+	--neutral-800: #262626;
+	--neutral-700: #404040;
+	--neutral-600: #525252;
+	--neutral-500: #737373;
+	--neutral-400: #a3a3a3;
+	--neutral-300: #d4d4d4;
 
-  --yellow-200: #fef08a;
-  --yellow-100: #fef9c3;
+	--emerald-100: #d1fae5;
 
-  --yellow-300: #fde047;
-  --yellow-400: #facc15;
-  --yellow-500: #eab308;
-  --yellow-600: #ca8a04;
-  --yellow-700: #a16207;
-  --yellow-800: #854d0e;
-  --yellow-950: #422006;
+	--yellow-200: #fef08a;
+	--yellow-100: #fef9c3;
 
-  --green-600: #16a34a;
-  --green-900: #14532d;
+	--yellow-300: #fde047;
+	--yellow-400: #facc15;
+	--yellow-500: #eab308;
+	--yellow-600: #ca8a04;
+	--yellow-700: #a16207;
+	--yellow-800: #854d0e;
+	--yellow-950: #422006;
 
-  --blue-900: #1e3a8a;
-  --sky-950: #082f49;
+	--green-600: #16a34a;
+	--green-900: #14532d;
 
-  color: var(--neutral-900);
+	--blue-900: #1e3a8a;
+	--sky-950: #082f49;
 
-  --border-color: var(--slate-400);
-  --uuid-color: var(--neutral-900);
+	color: var(--neutral-900);
 
-  background-color: var(--slate-300);
+	--border-color: var(--slate-400);
+	--uuid-color: var(--neutral-900);
+
+	background-color: var(--slate-300);
 }
 img,
 picture,
 video,
 canvas,
 svg {
-  display: block;
-  max-width: 100%;
+	display: block;
+	max-width: 100%;
 }
 input,
 button,
 textarea,
 select {
-  font: inherit;
+	font: inherit;
 }
 p,
 h1,
@@ -168,131 +174,270 @@ h3,
 h4,
 h5,
 h6 {
-  overflow-wrap: break-word;
+	overflow-wrap: break-word;
 }
 #root,
 #__next {
-  isolation: isolate;
+	isolation: isolate;
 }
 
 /* ==========================================================================
     Author's custom styles
    ========================================================================== */
 
-.container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+.header-bar {
+	background-color: #f0f4f8;
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	padding: 0.75rem 1rem;
+	width: 100%;
 }
 
-.navbar {
-  background-color: #333;
-  color: white;
-  padding: 15px 0;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+.header-text a:link {
+	font-family: "Futura PT Medium", sans-serif;
+	text-decoration: none;
+	color: var(--rock);
 }
 
-.navbar-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.header-text a:hover {
+	text-decoration: underline;
+	color: var(--rock);
 }
 
-.navbar-left a {
-  color: #4fd1c5;
-  text-decoration: none;
-  transition: color 0.3s ease;
+.header-left {
+	display: flex;
+	align-items: center;
 }
 
-.navbar-left a:hover {
-  color: #38b2ac;
+.header-right {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: 1.1rem; /* ? There has to be a better way of aligning this at the bottom with header left */
 }
 
-.navbar-right {
-  display: flex;
-  gap: 20px;
+.title-area {
+	text-align: left;
 }
 
-.icon-link {
-  color: white;
-  font-size: 1.2rem;
-  transition: color 0.3s ease;
+.title-area h1 {
+	margin: 0;
+	font-size: 1.5rem;
+	font-weight: 600;
 }
 
-.icon-link:hover {
-  color: #4fd1c5;
+.subtitle {
+	margin: 0;
+	color: #4a5568;
+}
+.icon-container {
+	display: flex;
+	gap: 1rem;
 }
 
-.header {
-  text-align: center;
-  padding: 40px 0;
+.credit-text {
+	color: var(--grey);
 }
 
-.header h1 {
-  margin: 0;
-  font-size: 3rem;
-  color: #2d3748;
+.credit-text a {
+	color: var(--rock);
+	text-decoration: underline;
+	transition: color 0.2s ease;
 }
 
-.header h2 {
-  margin: 10px 0 0;
-  font-weight: 400;
-  color: #718096;
+.credit-text a:hover {
+	color: var(--gasoline);
 }
 
-.main-content {
-  min-height: 60vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.button-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: calc(100vh - 80px);
+	background-color: var(--slate-300);
 }
 
 .counter-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 30px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2rem;
 }
 
 .counter-display {
-  font-size: 6rem;
-  font-weight: bold;
-  color: #2d3748;
-  background-color: white;
-  border-radius: 16px;
-  padding: 20px 40px;
-  min-width: 200px;
-  text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+	font-size: 6rem;
+	font-weight: bold;
+	color: #2d3748;
+	background-color: white;
+	border-radius: 16px;
+	padding: 1.25rem 2.5rem;
+	min-width: 200px;
+	text-align: center;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	transition: transform 0.3s ease;
 }
 
 .counter-display:hover {
-  transform: translateY(-5px);
+	transform: translateY(-5px);
 }
 
+/*** Button ***/
 .btn {
-  background-color: #4fd1c5;
-  color: white;
-  border: none;
-  padding: 15px 30px;
-  font-size: 1.2rem;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	background-color: var(--rock);
+	color: var(--cream);
+	font-family: "Futura PT Heavy", sans-serif;
+	border: none;
+	padding: 0.9rem 1.9rem;
+	font-size: 1.2rem;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .btn:hover {
-  background-color: #38b2ac;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+	background-color: var(--gasoline);
+	color: var(--rock);
+	transform: translateY(-2px);
+	box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 }
 
 .btn:active {
-  transform: translateY(1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	transform: translateY(1px);
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/*** SVGs ***/
+/* Because this relies on styling of the stroke and not the fill */
+.blog-svg {
+	fill: none;
+	stroke: var(--grey);
+	stroke-width: 2;
+	width: 1.1rem;
+	height: 1.1rem;
+}
+.blog-svg:hover {
+	stroke: var(--gasoline);
+}
+
+.icon-svg {
+	fill: var(--grey);
+	stroke: none;
+	stroke-width: 1;
+	width: 1.1rem;
+	height: 1.1rem;
+}
+.icon-svg:hover {
+	fill: var(--gasoline);
+}
+
+@media only screen and (max-width: 768px) {
+	.header-bar {
+		flex-direction: column;
+		align-items: center;
+		padding: 0.75rem;
+		text-align: center;
+	}
+
+	.header-left {
+		margin-bottom: 0.75rem;
+		width: 100%;
+		justify-content: center;
+	}
+
+	.header-right {
+		width: 100%;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.title-area {
+		text-align: center;
+	}
+
+	.icon-container {
+		order: 2;
+	}
+
+	.credit-text {
+		order: 1;
+		text-align: left;
+	}
+
+	.counter-display {
+		font-size: clamp(2rem, 8vw, 4rem);
+	}
+
+	.btn {
+		padding: 0.8rem 1.5rem;
+		font-size: 1rem;
+	}
+}
+
+@media only screen and (max-width: 350px) {
+	.counter-display {
+		font-size: clamp(1.5rem, 6vw, 2.5rem);
+		padding: 0.75rem;
+	}
+}
+
+/*** Fonts ***/
+@font-face {
+	font-family: "Futura PT Book";
+	font-style: normal;
+	font-weight: normal;
+	src: local("Futura PT Book"),
+		url("fonts/FuturaCyrillicBook.woff") format("woff");
+}
+
+@font-face {
+	font-family: "Futura PT Light";
+	font-style: normal;
+	font-weight: normal;
+	src: local("Futura PT Light"),
+		url("fonts/FuturaCyrillicLight.woff") format("woff");
+}
+
+@font-face {
+	font-family: "Futura PT Medium";
+	font-style: normal;
+	font-weight: normal;
+	src: local("Futura PT Medium"),
+		url("fonts/FuturaCyrillicMedium.woff") format("woff");
+}
+
+@font-face {
+	font-family: "Futura PT Demi";
+	font-style: normal;
+	font-weight: normal;
+	src: local("Futura PT Demi"),
+		url("fonts/FuturaCyrillicDemi.woff") format("woff");
+}
+
+@font-face {
+	font-family: "Futura PT Heavy";
+	font-style: normal;
+	font-weight: normal;
+	src: local("Futura PT Heavy"),
+		url("fonts/FuturaCyrillicHeavy.woff") format("woff");
+}
+
+@font-face {
+	font-family: "Futura PT Bold";
+	font-style: normal;
+	font-weight: normal;
+	src: local("Futura PT Bold"),
+		url("fonts/FuturaCyrillicBold.woff") format("woff");
+}
+
+@font-face {
+	font-family: "Futura PT Extra Bold";
+	font-style: normal;
+	font-weight: normal;
+	src: local("Futura PT Extra Bold"),
+		url("fonts/FuturaCyrillicExtraBold.woff") format("woff");
 }
 
 /* ==========================================================================
@@ -305,7 +450,7 @@ h6 {
 
 .hidden,
 [hidden] {
-  display: none !important;
+	display: none !important;
 }
 
 /*
@@ -318,16 +463,16 @@ h6 {
  */
 
 .visually-hidden {
-  border: 0;
-  clip: rect(0, 0, 0, 0);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  white-space: nowrap;
-  width: 1px;
-  /* 1 */
+	border: 0;
+	clip: rect(0, 0, 0, 0);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+	/* 1 */
 }
 
 /*
@@ -338,13 +483,13 @@ h6 {
 
 .visually-hidden.focusable:active,
 .visually-hidden.focusable:focus {
-  clip: auto;
-  height: auto;
-  margin: 0;
-  overflow: visible;
-  position: static;
-  white-space: inherit;
-  width: auto;
+	clip: auto;
+	height: auto;
+	margin: 0;
+	overflow: visible;
+	position: static;
+	white-space: inherit;
+	width: auto;
 }
 
 /*
@@ -352,7 +497,7 @@ h6 {
  */
 
 .invisible {
-  visibility: hidden;
+	visibility: hidden;
 }
 
 /*
@@ -364,12 +509,12 @@ h6 {
 
 .clearfix::before,
 .clearfix::after {
-  content: "";
-  display: table;
+	content: "";
+	display: table;
 }
 
 .clearfix::after {
-  clear: both;
+	clear: both;
 }
 
 /* ==========================================================================
@@ -379,14 +524,14 @@ h6 {
    ========================================================================== */
 
 @media only screen and (min-width: 35em) {
-  /* Style adjustments for viewports that meet the condition */
+	/* Style adjustments for viewports that meet the condition */
 }
 
 @media print,
-  (-webkit-min-device-pixel-ratio: 1.25),
-  (min-resolution: 1.25dppx),
-  (min-resolution: 120dpi) {
-  /* Style adjustments for high resolution devices */
+	(-webkit-min-device-pixel-ratio: 1.25),
+	(min-resolution: 1.25dppx),
+	(min-resolution: 120dpi) {
+	/* Style adjustments for high resolution devices */
 }
 
 /* ==========================================================================
@@ -396,63 +541,62 @@ h6 {
    ========================================================================== */
 
 @media print {
-  *,
-  *::before,
-  *::after {
-    background: #fff !important;
-    color: #000 !important;
-    /* Black prints faster */
-    box-shadow: none !important;
-    text-shadow: none !important;
-  }
+	*,
+	*::before,
+	*::after {
+		background: #fff !important;
+		color: #000 !important;
+		/* Black prints faster */
+		box-shadow: none !important;
+		text-shadow: none !important;
+	}
 
-  a,
-  a:visited {
-    text-decoration: underline;
-  }
+	a,
+	a:visited {
+		text-decoration: underline;
+	}
 
-  a[href]::after {
-    content: " (" attr(href) ")";
-  }
+	a[href]::after {
+		content: " (" attr(href) ")";
+	}
 
-  abbr[title]::after {
-    content: " (" attr(title) ")";
-  }
+	abbr[title]::after {
+		content: " (" attr(title) ")";
+	}
 
-  /*
+	/*
    * Don't show links that are fragment identifiers,
    * or use the `javascript:` pseudo protocol
    */
-  a[href^="#"]::after,
-  a[href^="javascript:"]::after {
-    content: "";
-  }
+	a[href^="#"]::after,
+	a[href^="javascript:"]::after {
+		content: "";
+	}
 
-  pre {
-    white-space: pre-wrap !important;
-  }
+	pre {
+		white-space: pre-wrap !important;
+	}
 
-  pre,
-  blockquote {
-    border: 1px solid #999;
-    page-break-inside: avoid;
-  }
+	pre,
+	blockquote {
+		border: 1px solid #999;
+		page-break-inside: avoid;
+	}
 
-  tr,
-  img {
-    page-break-inside: avoid;
-  }
+	tr,
+	img {
+		page-break-inside: avoid;
+	}
 
-  p,
-  h2,
-  h3 {
-    orphans: 3;
-    widows: 3;
-  }
+	p,
+	h2,
+	h3 {
+		orphans: 3;
+		widows: 3;
+	}
 
-  h2,
-  h3 {
-    page-break-after: avoid;
-  }
+	h2,
+	h3 {
+		page-break-after: avoid;
+	}
 }
-
