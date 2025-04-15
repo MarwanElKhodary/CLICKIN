@@ -49,23 +49,15 @@ func (h *Handler) SetupRoutes(router *gin.Engine) {
 	router.POST("/count", h.incrementCountHandler)
 }
 
-// ? How come this function doesn't start with a capital letter but others do?
 func (h *Handler) incrementCountHandler(c *gin.Context) {
-	_, err := h.service.IncrementRandomCount()
+	lastInsertId, err := h.service.IncrementRandomCount()
 
 	if err != nil {
 		c.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
 
-	count, err := h.service.GetTotalCount()
-
-	if err != nil {
-		c.AbortWithStatus(http.StatusInternalServerError)
-		return
-	}
-
-	c.String(http.StatusOK, fmt.Sprintf("%d", count))
+	c.String(http.StatusOK, fmt.Sprintf("%d", lastInsertId)) // ? Unsure if this will work once concurrency is implemented
 }
 
 func (h *Handler) getCountHandler(c *gin.Context) {
