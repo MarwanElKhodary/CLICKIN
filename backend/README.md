@@ -62,3 +62,16 @@ SELECT SUM(count) as count FROM count_table;
 - Tests are following [Table-Driven Tests](https://go.dev/wiki/TableDrivenTests) structure. It currently does not include subtests properly or good takedown, but it's working
 - Good reference on [whether or not I need websockets](https://hntrl.io/posts/you-dont-need-websockets/), although a lot of comments are saying this is bad advice
 - Have to use `go test -race` at some point
+- Based off of [this article](https://netflixtechblog.com/netflixs-distributed-counter-abstraction-8d0c45eb66b2) you should maybe consider restructing the API's request/response to look more like this to have `generation time`
+
+```json
+{
+  "namespace": "my_dataset",
+  "counter_name": "counter123",
+  "delta": 2,
+  "idempotency_token": { 
+    "token": "some_event_id",
+    "generation_time": "2024-10-05T14:48:00Z"
+  }
+}
+```
