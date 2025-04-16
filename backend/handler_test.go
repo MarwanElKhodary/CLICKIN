@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"regexp"
+	"sync"
 	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"
@@ -14,10 +15,10 @@ import (
 
 // ? What is this t * testing.T format?
 // ? Read more about global variables in golang
-// ? Read more about `if err := mock.ExpectationsWereMet(); err != nil {` notation
 
 var router *gin.Engine
 var mock sqlmock.Sqlmock
+var repo *Repository
 
 // ** This structure found from: https://stackoverflow.com/questions/23729790/how-can-i-do-test-setup-using-the-testing-package-in-go
 func setupTestCase(t *testing.T) func(t *testing.T) {
@@ -29,7 +30,7 @@ func setupTestCase(t *testing.T) func(t *testing.T) {
 	}
 	mock = mockSQL
 
-	repo := NewRepository(db)
+	repo = NewRepository(db)
 
 	service := NewService(repo)
 
@@ -44,7 +45,6 @@ func setupTestCase(t *testing.T) func(t *testing.T) {
 	}
 }
 
-// TODO: Consider refactoring this into separate methods instead
 func TestRoutes(t *testing.T) {
 	testCases := []struct {
 		name     string
@@ -75,35 +75,50 @@ func TestRoutes(t *testing.T) {
 			w := httptest.NewRecorder()
 			req, _ := http.NewRequest(tc.method, tc.url, tc.body)
 			router.ServeHTTP(w, req)
+
 			assert.Equal(t, tc.expected, w.Code)
 		})
 	}
 }
 
-// func TestConcurrentIncrements(t *testing.T) {
-// 	teardownTestCase := setupTestCase(t)
-// 	defer teardownTestCase(t)
+func TestSameSlots(t *testing.T) {
+	teardownTestCase := setupTestCase(t)
+	defer teardownTestCase(t)
 
-// 	numRequests := 10
+	numRequests := 100
+	sameSlot := 69
 
-// 	for i := range numRequests {
-// 		mock.ExpectExec(regexp.QuoteMeta("INSERT INTO count_table (slot, count) VALUES (?, ?)")).
-// 			WithArgs(sqlmock.AnyArg(), 1).
-// 			WillReturnResult(sqlmock.NewResult(int64(i+1), 1))
-// 	}
+	for i := range numRequests {
+		mock.ExpectExec(regexp.QuoteMeta("INSERT INTO count_table (slot, count) VALUES (?, ?)")).
+			WithArgs(sameSlot, 1).
+			WillReturnResult(sqlmock.NewResult(int64(i+1), 1))
+	}
+	t.Run("sameSlotCollision", func(t *testing.T) {
+		var wg sync.WaitGroup
+		wg.Add(numRequests)
 
-// 	rows := mock.NewRows([]string{"count"}).AddRow(numRequests)
-// 	mock.ExpectQuery(regexp.QuoteMeta("SELECT SUM(count) as count FROM count_table")).
-// 		WillReturnRows(rows)
+		for range numRequests {
+			go func() {
+				defer wg.Done()
 
-// 	for range numRequests {
-// 		w := httptest.NewRecorder()
-// 		req, _ := http.NewRequest("POST", "/count", nil)
-// 		router.ServeHTTP(w, req)
-// 		assert.Equal(t, http.StatusOK, w.Code)
-// 	}
-// 	// ? I still hate this notation
-// 	// if err := mock.ExpectationsWereMet(); err != nil {
-// 	// 	t.Errorf("there were unfulfilled expectations: %s", err)
-// 	// }
-// }
+				_, err := repo.IncrementCount(sameSlot, 1)
+				if err != nil {
+					t.Errorf("Failed to increment: %v", err)
+				}
+			}()
+		}
+
+		wg.Wait()
+
+		rows := mock.NewRows([]string{"count"}).AddRow(numRequests)
+		mock.ExpectQuery(regexp.QuoteMeta("SELECT SUM(count) as count FROM count_table")).
+			WillReturnRows(rows)
+
+		totalCount, err := repo.GetTotalCount()
+		if err != nil {
+			t.Fatalf("Failed to get count: %v", err)
+		}
+
+		assert.Equal(t, numRequests, totalCount)
+	})
+}
