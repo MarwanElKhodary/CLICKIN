@@ -79,3 +79,4 @@ SELECT SUM(count) as count FROM count_table;
 - Use `ifconfig | grep "inet " | grep -v 127.0.0.1` to get your ip address on Mac
   - The first ip address should be usable along with the port number on other devices in the same network
   - You might need to disable firewall
+  - At this point, other devices are getting `htmx:afterRequest`, `htmx:sendError`, `Failed to load resource: net::ERR_CONNECTION_REFUSED` errors
