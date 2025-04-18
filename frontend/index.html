@@ -14,6 +14,7 @@
 		<meta property="og:url" content="" />
 		<meta property="og:image" content="" />
 		<meta property="og:image:alt" content="" />
+
 		<!-- ! Needed to eliminate htmx:invalidPath errors-->
 		<!-- TODO: Address security risks -->
 		<meta name="htmx-config" content='{"selfRequestsOnly":false}' />
@@ -23,6 +24,19 @@
 		<link rel="icon" href="favicon.ico" sizes="any" />
 		<link rel="icon" href="icon.svg" type="image/svg+xml" />
 		<link rel="apple-touch-icon" href="icon.png" />
+
+		<script src="js/vendor/htmx.min.js"></script>
+		<script src="js/vendor/ws.min.js"></script>
+		<!-- ! Added because of 'Access to XMLHttpRequest error' -->
+		<!-- TODO: Remove all extra htmx headers, re-add content-type -->
+		<!-- TODO: Address security risks -->
+		<script>
+			document.body.addEventListener("htmx:configRequest", function (event) {
+				event.detail.headers = "";
+				event.detail.headers["Content-Type"] =
+					"application/x-www-form-urlencoded; charset=UTF-8";
+			});
+		</script>
 	</head>
 
 	<body hx-boost="true">
@@ -118,17 +132,5 @@
 				</div>
 			</main>
 		</div>
-
-		<script src="js/vendor/htmx.min.js"></script>
-		<!-- ! Added because of 'Access to XMLHttpRequest error' -->
-		<!-- TODO: Remove all extra htmx headers, re-add content-type -->
-		<!-- TODO: Address security risks -->
-		<script>
-			document.body.addEventListener("htmx:configRequest", function (event) {
-				event.detail.headers = "";
-				event.detail.headers["Content-Type"] =
-					"application/x-www-form-urlencoded; charset=UTF-8";
-			});
-		</script>
 	</body>
 </html>
