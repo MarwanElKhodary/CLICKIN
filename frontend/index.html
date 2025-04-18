@@ -25,7 +25,7 @@
 		<link rel="apple-touch-icon" href="icon.png" />
 	</head>
 
-	<body>
+	<body hx-boost="true">
 		<div id="root">
 			<nav class="header-bar">
 				<div class="header-left">
@@ -92,21 +92,23 @@
 				</div>
 			</nav>
 
+			<!-- TODO: Fix spamming this button on phone, currently zooms in too much -->
+			<!-- TODO: Spacing is off on this on phones, it's not exactly in the middle -->
 			<main class="button-container">
 				<div class="counter-container">
 					<div class="counter-display">
-						<!-- ! What happens if the get request fails?  -->
+						<!-- ! What happens if the get request fails? -->
 						<!-- ! Since this is loaded in, there's no default value - kind of jank -->
 						<span
 							id="counter"
-							hx-get="http://localhost:8080/count"
+							hx-get="/count"
 							hx-trigger="load"
 							hx-swap="innerHTML">
 						</span>
 					</div>
 					<!-- ! Similarly, what happens if this request fails?  -->
 					<button
-						hx-post="http://localhost:8080/count"
+						hx-post="/count"
 						hx-target="#counter"
 						hx-swap="innerHTML"
 						id="increment-button"
@@ -118,11 +120,10 @@
 		</div>
 
 		<script src="js/vendor/htmx.min.js"></script>
-		<!--TODO: Is this a security risk? -->
+		<!-- ! Added because of 'Access to XMLHttpRequest error' -->
+		<!-- TODO: Remove all extra htmx headers, re-add content-type -->
+		<!-- TODO: Address security risks -->
 		<script>
-			// Remove all extra htmx headers, re-add content-type.
-			// ! Added because of 'Access to XMLHttpRequest error'
-			// TODO: Address security risks
 			document.body.addEventListener("htmx:configRequest", function (event) {
 				event.detail.headers = "";
 				event.detail.headers["Content-Type"] =
