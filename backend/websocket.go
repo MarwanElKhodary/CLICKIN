@@ -1,3 +1,6 @@
+// Package main implements a simple click-counter application with a web interface.
+// It provides a REST API to get and increment a counter, and a real-time
+// WebSocket connection to update all clients when the counter changes.
 package main
 
 import (
@@ -7,13 +10,18 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-// Upgrades HTTP connections to WebSocket connections
+// upgrader is used to upgrade HTTP connections to WebSocket connections.
+// It allows all origins for simplicity, but should be restricted in production.
+// ! Restrict this in production
 var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool {
 		return true
 	},
 }
 
+// wsHandler handles WebSocket connections from clients.
+// It upgrades the HTTP connection to a WebSocket connection, listens for messages,
+// and echoes them back to the client.
 func wsHandler(w http.ResponseWriter, r *http.Request) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {

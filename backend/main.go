@@ -1,3 +1,6 @@
+// Package main implements a simple click-counter application with a web interface.
+// It provides a REST API to get and increment a counter, and a real-time
+// WebSocket connection to update all clients when the counter changes.
 package main
 
 import (

@@ -1,3 +1,6 @@
+// Package main implements a simple click-counter application with a web interface.
+// It provides a REST API to get and increment a counter, and a real-time
+// WebSocket connection to update all clients when the counter changes.
 package main
 
 import (
@@ -16,11 +19,16 @@ import (
 // ? What is this t * testing.T format?
 // ? Read more about global variables in golang
 
+// Global variables for testing
 var router *gin.Engine
 var mock sqlmock.Sqlmock
 var repo *Repository
 
-// ** This structure found from: https://stackoverflow.com/questions/23729790/how-can-i-do-test-setup-using-the-testing-package-in-go
+// setupTestCase initializes test dependencies and returns a teardown function.
+// It creates a mock database, repository, service, and handler, and sets up routes.
+// The returned function should be deferred to clean up resources after the test.
+//
+// This structure is based on: https://stackoverflow.com/questions/23729790/how-can-i-do-test-setup-using-the-testing-package-in-go
 func setupTestCase(t *testing.T) func(t *testing.T) {
 	t.Log("setup test case")
 
@@ -45,6 +53,8 @@ func setupTestCase(t *testing.T) func(t *testing.T) {
 	}
 }
 
+// TestRoutes verifies that all defined routes return the expected status codes.
+// It tests the root route, the get count endpoint, and the post count endpoint.
 func TestRoutes(t *testing.T) {
 	testCases := []struct {
 		name     string
@@ -81,6 +91,9 @@ func TestRoutes(t *testing.T) {
 	}
 }
 
+// TestSameSlots tests concurrent incrementing of the same counter slot.
+// It verifies that 100 concurrent increments to the same slot result in
+// the expected total count.
 func TestSameSlots(t *testing.T) {
 	teardownTestCase := setupTestCase(t)
 	defer teardownTestCase(t)
