@@ -1,3 +1,6 @@
+// Package main implements a simple click-counter application with a web interface.
+// It provides a REST API to get and increment a counter, and a real-time
+// WebSocket connection to update all clients when the counter changes.
 package main
 
 import (
@@ -9,10 +12,14 @@ import (
 	"github.com/joho/godotenv"
 )
 
+// Config holds application configuration including database connection.
 type Config struct {
 	DB *sql.DB
 }
 
+// LoadConfig initializes and returns the application configuration.
+// It loads environment variables from a .env file and establishes
+// a connection to the MySQL database.
 func LoadConfig() (*Config, error) {
 	err := godotenv.Load(".env")
 

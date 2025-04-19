@@ -75,3 +75,12 @@ SELECT SUM(count) as count FROM count_table;
   }
 }
 ```
+
+- Use `ifconfig | grep "inet " | grep -v 127.0.0.1` to get your ip address on Mac
+  - The first ip address should be usable along with the port number on other devices in the same network
+  - You might need to disable firewall
+  - At this point, other devices are getting `htmx:afterRequest`, `htmx:sendError`, `Failed to load resource: net::ERR_CONNECTION_REFUSED` errors
+- Some good links on websockets:
+  - [HTMX extension](https://htmx.org/extensions/ws/)
+  - [Simple guide on websockets in Go](https://medium.com/wisemonks/implementing-websockets-in-golang-d3e8e219733b)
+  - [Guide on gorilla + gin in Go](https://medium.com/@abhishekranjandev/building-a-production-grade-websocket-for-notifications-with-golang-and-gin-a-detailed-guide-5b676dcfbd5a)

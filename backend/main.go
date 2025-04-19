@@ -1,3 +1,6 @@
+// Package main implements a simple click-counter application with a web interface.
+// It provides a REST API to get and increment a counter, and a real-time
+// WebSocket connection to update all clients when the counter changes.
 package main
 
 import (
@@ -21,7 +24,10 @@ func main() {
 	handler := NewHandler(service)
 
 	router := gin.Default()
-	handler.SetupRoutes(router) // ! The router is dependent on the handler at this current stage
+
+	// ! The router is dependent on the handler at this current stage
 	//TODO: Consider separating the router logic to make testing easier
-	router.Run("localhost:8080")
+	handler.SetupRoutes(router)
+
+	router.Run("0.0.0.0:8080")
 }

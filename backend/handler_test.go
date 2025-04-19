@@ -1,3 +1,6 @@
+// Package main implements a simple click-counter application with a web interface.
+// It provides a REST API to get and increment a counter, and a real-time
+// WebSocket connection to update all clients when the counter changes.
 package main
 
 import (
@@ -5,6 +8,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"regexp"
+	"sync"
 	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"
@@ -14,12 +18,17 @@ import (
 
 // ? What is this t * testing.T format?
 // ? Read more about global variables in golang
-// ? Read more about `if err := mock.ExpectationsWereMet(); err != nil {` notation
 
+// Global variables for testing
 var router *gin.Engine
 var mock sqlmock.Sqlmock
+var repo *Repository
 
-// ** This structure found from: https://stackoverflow.com/questions/23729790/how-can-i-do-test-setup-using-the-testing-package-in-go
+// setupTestCase initializes test dependencies and returns a teardown function.
+// It creates a mock database, repository, service, and handler, and sets up routes.
+// The returned function should be deferred to clean up resources after the test.
+//
+// This structure is based on: https://stackoverflow.com/questions/23729790/how-can-i-do-test-setup-using-the-testing-package-in-go
 func setupTestCase(t *testing.T) func(t *testing.T) {
 	t.Log("setup test case")
 
@@ -29,7 +38,7 @@ func setupTestCase(t *testing.T) func(t *testing.T) {
 	}
 	mock = mockSQL
 
-	repo := NewRepository(db)
+	repo = NewRepository(db)
 
 	service := NewService(repo)
 
@@ -44,7 +53,8 @@ func setupTestCase(t *testing.T) func(t *testing.T) {
 	}
 }
 
-// TODO: Consider refactoring this into separate methods instead
+// TestRoutes verifies that all defined routes return the expected status codes.
+// It tests the root route, the get count endpoint, and the post count endpoint.
 func TestRoutes(t *testing.T) {
 	testCases := []struct {
 		name     string
@@ -75,35 +85,53 @@ func TestRoutes(t *testing.T) {
 			w := httptest.NewRecorder()
 			req, _ := http.NewRequest(tc.method, tc.url, tc.body)
 			router.ServeHTTP(w, req)
+
 			assert.Equal(t, tc.expected, w.Code)
 		})
 	}
 }
 
-// func TestConcurrentIncrements(t *testing.T) {
-// 	teardownTestCase := setupTestCase(t)
-// 	defer teardownTestCase(t)
+// TestSameSlots tests concurrent incrementing of the same counter slot.
+// It verifies that 100 concurrent increments to the same slot result in
+// the expected total count.
+func TestSameSlots(t *testing.T) {
+	teardownTestCase := setupTestCase(t)
+	defer teardownTestCase(t)
 
-// 	numRequests := 10
+	numRequests := 100
+	sameSlot := 69
 
-// 	for i := range numRequests {
-// 		mock.ExpectExec(regexp.QuoteMeta("INSERT INTO count_table (slot, count) VALUES (?, ?)")).
-// 			WithArgs(sqlmock.AnyArg(), 1).
-// 			WillReturnResult(sqlmock.NewResult(int64(i+1), 1))
-// 	}
+	for i := range numRequests {
+		mock.ExpectExec(regexp.QuoteMeta("INSERT INTO count_table (slot, count) VALUES (?, ?)")).
+			WithArgs(sameSlot, 1).
+			WillReturnResult(sqlmock.NewResult(int64(i+1), 1))
+	}
+	t.Run("sameSlotCollision", func(t *testing.T) {
+		var wg sync.WaitGroup
+		wg.Add(numRequests)
 
-// 	rows := mock.NewRows([]string{"count"}).AddRow(numRequests)
-// 	mock.ExpectQuery(regexp.QuoteMeta("SELECT SUM(count) as count FROM count_table")).
-// 		WillReturnRows(rows)
+		for range numRequests {
+			go func() {
+				defer wg.Done()
 
-// 	for range numRequests {
-// 		w := httptest.NewRecorder()
-// 		req, _ := http.NewRequest("POST", "/count", nil)
-// 		router.ServeHTTP(w, req)
-// 		assert.Equal(t, http.StatusOK, w.Code)
-// 	}
-// 	// ? I still hate this notation
-// 	// if err := mock.ExpectationsWereMet(); err != nil {
-// 	// 	t.Errorf("there were unfulfilled expectations: %s", err)
-// 	// }
-// }
+				_, err := repo.IncrementCount(sameSlot, 1)
+				if err != nil {
+					t.Errorf("Failed to increment: %v", err)
+				}
+			}()
+		}
+
+		wg.Wait()
+
+		rows := mock.NewRows([]string{"count"}).AddRow(numRequests)
+		mock.ExpectQuery(regexp.QuoteMeta("SELECT SUM(count) as count FROM count_table")).
+			WillReturnRows(rows)
+
+		totalCount, err := repo.GetTotalCount()
+		if err != nil {
+			t.Fatalf("Failed to get count: %v", err)
+		}
+
+		assert.Equal(t, numRequests, totalCount)
+	})
+}
