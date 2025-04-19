@@ -11,6 +11,10 @@ import (
 	"github.com/gorilla/websocket"
 )
 
+//Link: https://medium.com/wisemonks/implementing-websockets-in-golang-d3e8e219733b
+// TODO: Protect against CSWSH
+// TODO: Use secure WebSockets
+
 // upgrader is used to upgrade HTTP connections to WebSocket connections.
 // It allows all origins for simplicity, but should be restricted in production.
 // ! Restrict this in production
