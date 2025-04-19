@@ -59,23 +59,24 @@ func (h *Handler) SetupRoutes(router *gin.Engine) {
 		)
 	})
 
-	// ? Maybe change the name to /get-count and /update-count
 	router.GET("/count", h.getCountHandler)
 	router.POST("/count", h.incrementCountHandler)
 }
 
 // incrementCountHandler handles POST requests to increment the counter.
-// It increments a random counter slot and returns the last insert ID.
+// It increments a random counter slot, broadcasts the count using WebSockets using the lastInsertId.
 // Returns HTTP 400 Bad Request if there is an error during increment.
 func (h *Handler) incrementCountHandler(c *gin.Context) {
 	lastInsertId, err := h.service.IncrementRandomCount()
+
+	BroadcastCount(int(lastInsertId))
 
 	if err != nil {
 		c.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
 
-	c.String(http.StatusOK, fmt.Sprintf("%d", lastInsertId)) // ? Unsure if this will work once concurrency is implemented
+	c.Status(http.StatusOK)
 }
 
 // getCountHandler handles GET requests to retrieve the current counter value.

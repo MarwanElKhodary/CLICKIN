@@ -19,6 +19,20 @@ var upgrader = websocket.Upgrader{
 	},
 }
 
+// Single websocket connection for simple testing.
+var activeConn *websocket.Conn
+
+// BroadcastCount sends the current count to the active websocket connection
+func BroadcastCount(count int) {
+	if activeConn != nil {
+		message := fmt.Sprintf("<span id=\"counter\">%d</span>", count)
+
+		if err := activeConn.WriteMessage(websocket.TextMessage, []byte(message)); err != nil {
+			fmt.Println("Error updating count with websockets: ", err)
+		}
+	}
+}
+
 // wsHandler handles WebSocket connections from clients.
 // It upgrades the HTTP connection to a WebSocket connection, listens for messages,
 // and echoes them back to the client.
@@ -28,7 +42,19 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Error upgrading to websocket: ", err)
 		return
 	}
-	defer conn.Close()
+	// Save the connection
+	activeConn = conn
+	fmt.Println("New websocket client connected")
+
+	// Handle disconnection
+	defer func() {
+		if activeConn == conn {
+			activeConn = nil
+		}
+		conn.Close()
+		fmt.Println("Websocket client disconnected")
+	}()
+
 	// Listen for incoming messages
 	for {
 		// Read message from client
@@ -38,10 +64,5 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 			break
 		}
 		fmt.Printf("Received message: %s\\n", message)
-		//Echo message back to the client
-		if err := conn.WriteMessage(websocket.TextMessage, message); err != nil {
-			fmt.Println("Error writing message: ", err)
-			break
-		}
 	}
 }
