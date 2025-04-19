@@ -68,14 +68,12 @@ func (h *Handler) SetupRoutes(router *gin.Engine) {
 // Returns HTTP 400 Bad Request if there is an error during increment.
 func (h *Handler) incrementCountHandler(c *gin.Context) {
 	lastInsertId, err := h.service.IncrementRandomCount()
-
-	BroadcastCount(int(lastInsertId))
-
 	if err != nil {
 		c.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
 
+	BroadcastCount(int(lastInsertId))
 	c.Status(http.StatusOK)
 }
 

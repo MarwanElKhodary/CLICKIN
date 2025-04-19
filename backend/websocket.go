@@ -6,6 +6,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"sync"
 
 	"github.com/gorilla/websocket"
 )
@@ -19,50 +20,65 @@ var upgrader = websocket.Upgrader{
 	},
 }
 
-// Single websocket connection for simple testing.
-var activeConn *websocket.Conn
+// clients is a map that associates WebSocket connections with boolean values.
+var clients = make(map[*websocket.Conn]bool)
 
-// BroadcastCount sends the current count to the active websocket connection
+// broadcast channel to all connected clients.
+var broadcast = make(chan []byte)
+
+// mutex protects the connected clients' map.
+var mutex = &sync.Mutex{}
+
+// BroadcastCount sends the current count to the broadcast.
 func BroadcastCount(count int) {
-	if activeConn != nil {
-		message := fmt.Sprintf("<span id=\"counter\">%d</span>", count)
+	message := fmt.Sprintf("<span id=\"counter\">%d</span>", count)
+	broadcast <- []byte(message)
+}
 
-		if err := activeConn.WriteMessage(websocket.TextMessage, []byte(message)); err != nil {
-			fmt.Println("Error updating count with websockets: ", err)
+// handleMessages broadcasts any updates to all clients.
+func handleMessages() {
+	for {
+		message := <-broadcast
+		mutex.Lock()
+		for client := range clients {
+			err := client.WriteMessage(websocket.TextMessage, message)
+			if err != nil {
+				client.Close()
+				delete(clients, client)
+			}
 		}
+		mutex.Unlock()
 	}
 }
 
 // wsHandler handles WebSocket connections from clients.
-// It upgrades the HTTP connection to a WebSocket connection, listens for messages,
-// and echoes them back to the client.
+// It upgrades the HTTP connection to a WebSocket connection and handles the removal of dead clients.
 func wsHandler(w http.ResponseWriter, r *http.Request) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		fmt.Println("Error upgrading to websocket: ", err)
 		return
 	}
-	// Save the connection
-	activeConn = conn
-	fmt.Println("New websocket client connected")
+	defer conn.Close()
 
-	// Handle disconnection
-	defer func() {
-		if activeConn == conn {
-			activeConn = nil
-		}
-		conn.Close()
-		fmt.Println("Websocket client disconnected")
-	}()
+	mutex.Lock()
+	clients[conn] = true
+	mutex.Unlock()
 
-	// Listen for incoming messages
+	// While there is no need to process incoming messages from the client as it's handled by POST requests,
+	// this detects when the client disconnects and handles the removal of the disconnected clients
 	for {
-		// Read message from client
-		_, message, err := conn.ReadMessage()
+		_, _, err := conn.ReadMessage()
 		if err != nil {
-			fmt.Println("Error reading message: ", err)
+			mutex.Lock()
+			delete(clients, conn)
+			mutex.Unlock()
 			break
 		}
-		fmt.Printf("Received message: %s\\n", message)
 	}
+}
+
+// init always gets called before main, which establishes all the goroutines
+func init() {
+	go handleMessages()
 }
