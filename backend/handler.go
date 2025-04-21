@@ -36,7 +36,7 @@ func (h *Handler) SetupRoutes(router *gin.Engine) {
 	router.Use(cors.Default())
 
 	router.LoadHTMLFiles("../frontend/index.html")
-	router.Static("/css", "../frontend/css/")
+	router.Static("/assets", "../frontend/assets/")
 	router.Static("/js", "../frontend/js/")
 
 	router.GET("/", func(c *gin.Context) {

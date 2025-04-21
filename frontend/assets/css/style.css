@@ -389,7 +389,7 @@ h6 {
 	font-style: normal;
 	font-weight: normal;
 	src: local("Futura PT Book"),
-		url("fonts/FuturaCyrillicBook.woff") format("woff");
+		url("../fonts/FuturaCyrillicBook.woff") format("woff");
 }
 
 @font-face {
@@ -397,7 +397,7 @@ h6 {
 	font-style: normal;
 	font-weight: normal;
 	src: local("Futura PT Light"),
-		url("fonts/FuturaCyrillicLight.woff") format("woff");
+		url("../fonts/FuturaCyrillicLight.woff") format("woff");
 }
 
 @font-face {
@@ -405,7 +405,7 @@ h6 {
 	font-style: normal;
 	font-weight: normal;
 	src: local("Futura PT Medium"),
-		url("fonts/FuturaCyrillicMedium.woff") format("woff");
+		url("../fonts/FuturaCyrillicMedium.woff") format("woff");
 }
 
 @font-face {
@@ -413,7 +413,7 @@ h6 {
 	font-style: normal;
 	font-weight: normal;
 	src: local("Futura PT Demi"),
-		url("fonts/FuturaCyrillicDemi.woff") format("woff");
+		url("../fonts/FuturaCyrillicDemi.woff") format("woff");
 }
 
 @font-face {
@@ -421,7 +421,7 @@ h6 {
 	font-style: normal;
 	font-weight: normal;
 	src: local("Futura PT Heavy"),
-		url("fonts/FuturaCyrillicHeavy.woff") format("woff");
+		url("../fonts/FuturaCyrillicHeavy.woff") format("woff");
 }
 
 @font-face {
@@ -429,7 +429,7 @@ h6 {
 	font-style: normal;
 	font-weight: normal;
 	src: local("Futura PT Bold"),
-		url("fonts/FuturaCyrillicBold.woff") format("woff");
+		url("../fonts/FuturaCyrillicBold.woff") format("woff");
 }
 
 @font-face {
@@ -437,7 +437,7 @@ h6 {
 	font-style: normal;
 	font-weight: normal;
 	src: local("Futura PT Extra Bold"),
-		url("fonts/FuturaCyrillicExtraBold.woff") format("woff");
+		url("../fonts/FuturaCyrillicExtraBold.woff") format("woff");
 }
 
 /* ==========================================================================
