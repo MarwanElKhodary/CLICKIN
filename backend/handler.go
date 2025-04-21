@@ -39,6 +39,11 @@ func (h *Handler) SetupRoutes(router *gin.Engine) {
 	router.Static("/assets", "../frontend/assets/")
 	router.Static("/js", "../frontend/js/")
 
+	// Versioning is for sanity and bypassing cache
+	router.StaticFile("favicon_v3.ico", "../frontend/favicon_v3.ico")
+	router.StaticFile("icon_v2.svg", "../frontend/icon_v2.svg")
+	router.StaticFile("icon_v3.png", "../frontend/icon_v3.png")
+
 	router.GET("/", func(c *gin.Context) {
 		c.HTML(
 			http.StatusOK,
