@@ -47,6 +47,10 @@ func (h *Handler) SetupRoutes(router *gin.Engine) {
 		)
 	})
 
+	router.GET("/robots.txt", func(c *gin.Context) {
+		c.File("../frontend/robots.txt")
+	})
+
 	router.GET("/ws", func(c *gin.Context) {
 		wsHandler(c.Writer, c.Request)
 	})
