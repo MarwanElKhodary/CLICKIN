@@ -156,7 +156,11 @@
 					</div>
 					<!-- ! Similarly, what happens if this request fails?  -->
 					<!-- Button issues a POST request to update count, but swapping is done via WebSocket -->
-					<button hx-post="/count" hx-swap="none" class="btn">CLICK ME</button>
+					<button hx-post="/count" hx-swap="none" class="btn">
+						<span class="shadow"></span>
+						<span class="edge"></span>
+						<span class="front">CLICK ME</span>
+					</button>
 				</div>
 			</main>
 		</div>
