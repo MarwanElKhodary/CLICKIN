@@ -84,3 +84,12 @@ SELECT SUM(count) as count FROM count_table;
   - [HTMX extension](https://htmx.org/extensions/ws/)
   - [Simple guide on websockets in Go](https://medium.com/wisemonks/implementing-websockets-in-golang-d3e8e219733b)
   - [Guide on gorilla + gin in Go](https://medium.com/@abhishekranjandev/building-a-production-grade-websocket-for-notifications-with-golang-and-gin-a-detailed-guide-5b676dcfbd5a)
+- Look up MySQl security best practices
+- Look up Gin security best practices
+- Look up HTMX security best practices
+- Look up API security best practices
+- Look up WebSockets security best practices
+- Is there anything wrong with spamming API POST request?
+- [The Twelve Factor App](https://12factor.net/) - an amazing resource on deploying an app. LITERALLY A GODSEND
+- Definitely need to think about [most common security vulnerabilites](https://owasp.org/www-project-top-ten/) soon
+  - [Good resource](https://senowijayanto.medium.com/securing-your-go-backend-encryption-vulnerability-prevention-and-more-3fc980f45a8f) on securing Go backend via encryption - which is #2

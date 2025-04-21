@@ -73,7 +73,7 @@ func (h *Handler) incrementCountHandler(c *gin.Context) {
 		return
 	}
 
-	BroadcastCount(int(lastInsertId))
+	BroadcastCount(int(lastInsertId)) // ? Not sure if this will always work
 	c.Status(http.StatusOK)
 }
 

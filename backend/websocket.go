@@ -12,7 +12,7 @@ import (
 )
 
 //Link: https://medium.com/wisemonks/implementing-websockets-in-golang-d3e8e219733b
-// TODO: Protect against CSWSH
+// TODO: Protect against CSWSH - i.e. add wss instead ws
 // TODO: Use secure WebSockets
 
 // upgrader is used to upgrade HTTP connections to WebSocket connections.
@@ -36,6 +36,7 @@ var mutex = &sync.Mutex{}
 // BroadcastCount sends the current count to the broadcast.
 func BroadcastCount(count int) {
 	message := fmt.Sprintf("<span id=\"counter\">%d</span>", count)
+	// ! Here should you being crypto it? Like hash and unshash.
 	broadcast <- []byte(message)
 }
 

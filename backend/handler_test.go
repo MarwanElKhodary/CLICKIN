@@ -135,3 +135,9 @@ func TestSameSlots(t *testing.T) {
 		assert.Equal(t, numRequests, totalCount)
 	})
 }
+
+// TODO: Add new test for the conditions below
+// Connect phone and pc
+// Increment on phone and laptop randomly
+// At some point, disconnect phone from wifi, increment on the client
+// Make sure there's no incrementing on the client side if no wifi
