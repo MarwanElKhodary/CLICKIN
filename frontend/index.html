@@ -140,13 +140,14 @@
 				</div>
 			</nav>
 
-			<!-- TODO: Fix spamming this button on phone, currently zooms in too much -->
-			<!-- TODO: Spacing is off on this on phones, it's not exactly in the middle -->
+			<!-- TODO: Check spamming this button on phone -->
 			<main class="button-container" ws-connect="/ws">
 				<div class="counter-container">
 					<div class="counter-display">
 						<!-- ! What happens if the get request fails? -->
 						<!-- ! Since this is loaded in, there's no default value - kind of jank -->
+						<!-- ! Current max is 100,000,000 on an iPhone 14 -->
+						<!-- TODO: Fix sizing of counter on phones to handle larger numbers -->
 						<span
 							id="counter"
 							hx-get="/count"
