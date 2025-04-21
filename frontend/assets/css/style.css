@@ -435,11 +435,6 @@ h6 {
 	.counter-display {
 		font-size: clamp(2rem, 8vw, 4rem);
 	}
-
-	.btn {
-		padding: 0.8rem 1.5rem;
-		font-size: 1rem;
-	}
 }
 
 @media only screen and (max-width: 350px) {
