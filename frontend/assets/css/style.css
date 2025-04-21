@@ -101,7 +101,7 @@ body {
 body {
 	line-height: 1.5;
 	-webkit-font-smoothing: antialiased;
-	font-family: "Futura PT Book", sans-serif;
+	font-family: var(--font-secondary);
 
 	--rock: #2b3333;
 	--gasoline: #cce649;
@@ -185,6 +185,11 @@ h6 {
     Author's custom styles
    ========================================================================== */
 
+:root {
+	--font-primary: "SuperPixels", sans-serif;
+	--font-secondary: "Futura PT Book", sans-serif;
+}
+
 .header-bar {
 	background-color: #f0f4f8;
 	display: flex;
@@ -195,7 +200,7 @@ h6 {
 }
 
 .header-text a:link {
-	font-family: "Futura PT Medium", sans-serif;
+	font-family: var(--font-primary);
 	text-decoration: none;
 	color: var(--rock);
 }
@@ -266,6 +271,7 @@ h6 {
 }
 
 .counter-display {
+	font-family: var(--font-primary);
 	font-size: 6rem;
 	font-weight: bold;
 	color: #2d3748;
@@ -286,7 +292,7 @@ h6 {
 .btn {
 	background-color: var(--rock);
 	color: var(--cream);
-	font-family: "Futura PT Heavy", sans-serif;
+	font-family: var(--font-primary);
 	border: none;
 	padding: 0.9rem 1.9rem;
 	font-size: 1.2rem;
@@ -393,51 +399,11 @@ h6 {
 }
 
 @font-face {
-	font-family: "Futura PT Light";
+	font-family: "SuperPixels";
 	font-style: normal;
 	font-weight: normal;
-	src: local("Futura PT Light"),
-		url("../fonts/FuturaCyrillicLight.woff") format("woff");
-}
-
-@font-face {
-	font-family: "Futura PT Medium";
-	font-style: normal;
-	font-weight: normal;
-	src: local("Futura PT Medium"),
-		url("../fonts/FuturaCyrillicMedium.woff") format("woff");
-}
-
-@font-face {
-	font-family: "Futura PT Demi";
-	font-style: normal;
-	font-weight: normal;
-	src: local("Futura PT Demi"),
-		url("../fonts/FuturaCyrillicDemi.woff") format("woff");
-}
-
-@font-face {
-	font-family: "Futura PT Heavy";
-	font-style: normal;
-	font-weight: normal;
-	src: local("Futura PT Heavy"),
-		url("../fonts/FuturaCyrillicHeavy.woff") format("woff");
-}
-
-@font-face {
-	font-family: "Futura PT Bold";
-	font-style: normal;
-	font-weight: normal;
-	src: local("Futura PT Bold"),
-		url("../fonts/FuturaCyrillicBold.woff") format("woff");
-}
-
-@font-face {
-	font-family: "Futura PT Extra Bold";
-	font-style: normal;
-	font-weight: normal;
-	src: local("Futura PT Extra Bold"),
-		url("../fonts/FuturaCyrillicExtraBold.woff") format("woff");
+	src: local("SuperPixels"),
+		url("../fonts/SuperPixels-Regular.ttf") format("truetype");
 }
 
 /* ==========================================================================
