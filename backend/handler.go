@@ -68,6 +68,14 @@ func (h *Handler) SetupRoutes(router *gin.Engine) {
 		)
 	})
 
+	// Added to mitigate css issues if user navigates to the url below
+	// Current known issue is when the user goes to /assets/ it shows a blank screen
+	// ? Not sure if this is even an issue
+	router.GET("/frontend/*any", func(c *gin.Context) {
+		c.Redirect(http.StatusMovedPermanently, "/")
+
+	})
+
 	router.GET("/count", h.getCountHandler)
 	router.POST("/count", h.incrementCountHandler)
 }
