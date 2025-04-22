@@ -12,46 +12,8 @@ import (
 	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"
-	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 )
-
-// ? What is this t * testing.T format?
-// ? Read more about global variables in golang
-
-// Global variables for testing
-var router *gin.Engine
-var mock sqlmock.Sqlmock
-var repo *Repository
-
-// setupTestCase initializes test dependencies and returns a teardown function.
-// It creates a mock database, repository, service, and handler, and sets up routes.
-// The returned function should be deferred to clean up resources after the test.
-//
-// This structure is based on: https://stackoverflow.com/questions/23729790/how-can-i-do-test-setup-using-the-testing-package-in-go
-func setupTestCase(t *testing.T) func(t *testing.T) {
-	t.Log("setup test case")
-
-	db, mockSQL, err := sqlmock.New()
-	if err != nil {
-		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
-	}
-	mock = mockSQL
-
-	repo = NewRepository(db)
-
-	service := NewService(repo)
-
-	handler := NewHandler(service)
-
-	router = gin.Default()
-	handler.SetupRoutes(router)
-
-	return func(t *testing.T) {
-		t.Log("teardown test case")
-		db.Close()
-	}
-}
 
 // TestRoutes verifies that all defined routes return the expected status codes.
 // It tests the root route, the get count endpoint, and the post count endpoint.
