@@ -10,6 +10,7 @@ import (
 	"strings"
 	"sync"
 	"testing"
+	"time"
 
 	"github.com/gorilla/websocket"
 	"github.com/stretchr/testify/assert"
@@ -116,4 +117,60 @@ func TestClientDisconnection(t *testing.T) {
 	mutex.Lock()
 	assert.Equal(t, initialClientCount-1, len(clients), "Client should be removed from clients map after disconnection")
 	mutex.Unlock()
+}
+
+// TestMultipleBroadcasts tests that multiple broadcasts work correctly.
+// It verifies that when multiple BroadcastCount calls are made in succession,
+// all clients receive all messages in the correct order.
+func TestMultipleBroadcasts(t *testing.T) {
+	teardownTestCase := setupTestCase(t)
+	defer teardownTestCase(t)
+
+	s := httptest.NewServer(http.HandlerFunc(wsHandler))
+	defer s.Close()
+
+	// Convert http://127.0.0.1 to ws://127.0.0.
+	wsURL := "ws" + strings.TrimPrefix(s.URL, "http")
+
+	conn, _, err := websocket.DefaultDialer.Dial(wsURL, nil)
+	if err != nil {
+		t.Fatalf("Could not connect to WebSocket server: %v", err)
+	}
+	defer conn.Close()
+
+	expectedMsgs := []string{
+		"<span id=\"counter\">1</span>",
+		"<span id=\"counter\">2</span>",
+		"<span id=\"counter\">3</span>",
+	}
+
+	msgChan := make(chan string, len(expectedMsgs))
+
+	go func() {
+		for i := range len(expectedMsgs) {
+			_, msg, err := conn.ReadMessage()
+			if err != nil {
+				t.Errorf("Error reading message %d: %v", i, err)
+				return
+			}
+
+			msgChan <- string(msg)
+		}
+	}()
+
+	BroadcastCount(1)
+	BroadcastCount(2)
+	BroadcastCount(3)
+
+	var receivedMsgs []string
+	for i := range len(expectedMsgs) {
+		select { // ? wtf does this do?
+		case msg := <-msgChan:
+			receivedMsgs = append(receivedMsgs, msg)
+		case <-time.After(2 * time.Second):
+			t.Fatalf("Timeout waiting for mmessage %d", i)
+		}
+	}
+
+	assert.Equal(t, expectedMsgs, receivedMsgs, "All broadcast messages should be received in the correct order")
 }
