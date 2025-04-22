@@ -89,3 +89,31 @@ func TestBroadcastCount(t *testing.T) {
 
 	wg.Wait()
 }
+
+// TestClientDisconnection tests that disconnected clients are removed from the clients map.
+// It verifies that when a client closes its connection, it is properly removed from the map.
+func TestClientDisconnection(t *testing.T) {
+	teardownTestCase := setupTestCase(t)
+	defer teardownTestCase(t)
+
+	s := httptest.NewServer(http.HandlerFunc(wsHandler))
+	defer s.Close()
+
+	// Convert http://127.0.0.1 to ws://127.0.0.
+	wsURL := "ws" + strings.TrimPrefix(s.URL, "http")
+
+	conn, _, err := websocket.DefaultDialer.Dial(wsURL, nil)
+	if err != nil {
+		t.Fatalf("Could not connect to WebSocket server: %v", err)
+	}
+
+	mutex.Lock()
+	initialClientCount := len(clients)
+	mutex.Unlock()
+
+	conn.Close()
+
+	mutex.Lock()
+	assert.Equal(t, initialClientCount-1, len(clients), "Client should be removed from clients map after disconnection")
+	mutex.Unlock()
+}
