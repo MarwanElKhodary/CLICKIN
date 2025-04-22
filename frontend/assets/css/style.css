@@ -234,8 +234,9 @@ h6 {
 
 .subtitle {
 	margin: 0;
-	color: #4a5568;
+	color: var(--grey);
 }
+
 .icon-container {
 	display: flex;
 	gap: 1rem;
