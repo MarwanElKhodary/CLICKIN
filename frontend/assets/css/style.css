@@ -15,6 +15,8 @@ html {
 	color: var(--rock);
 	font-size: 1.2em;
 	line-height: 1.4;
+	touch-action: manipulation;
+	user-select: none;
 }
 
 /*
@@ -24,7 +26,10 @@ html {
  * Customize the background color to match your design.
  */
 
-::-moz-selection {
+/* 
+ * Not needed while user-select: none; 
+*/
+/* ::-moz-selection {
 	background: var(--gasoline);
 	text-shadow: none;
 }
@@ -32,7 +37,7 @@ html {
 ::selection {
 	background: var(--gasoline);
 	text-shadow: none;
-}
+} */
 
 /*
  * A better looking default horizontal rule
