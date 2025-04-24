@@ -195,7 +195,7 @@ h6 {
 	--font-secondary: "Futura PT Book", sans-serif;
 }
 
-.header-bar {
+.header {
 	background-color: #f0f4f8;
 	display: flex;
 	justify-content: space-between;
@@ -261,7 +261,7 @@ h6 {
 	color: var(--gasoline);
 }
 
-.button-container {
+.body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -269,7 +269,7 @@ h6 {
 	background-color: var(--slate-300);
 }
 
-.counter-container {
+.container {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -405,12 +405,12 @@ h6 {
 }
 
 @media only screen and (max-width: 768px) {
-	.button-container {
+	.body {
 		min-height: calc(100vh - 160px);
 		padding-bottom: 2rem;
 	}
 
-	.header-bar {
+	.header {
 		flex-direction: column;
 		align-items: center;
 		padding: 0.75rem;

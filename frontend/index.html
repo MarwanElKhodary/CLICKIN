@@ -61,7 +61,7 @@
 
 	<body hx-boost="true" hx-ext="ws">
 		<div id="root">
-			<nav class="header-bar">
+			<nav class="header">
 				<div class="header-left">
 					<div class="title-area">
 						<h1 class="header-text">
@@ -142,18 +142,15 @@
 			</nav>
 
 			<!-- Current state is that there's no error handling if this fails -->
-			<main class="button-container" ws-connect="/ws">
-				<div class="counter-container">
+			<main class="body" ws-connect="/ws">
+				<div class="container">
 					<div class="counter-display">
 						<!-- Current state is that there's no error handling if this fails -->
-                        <!-- There is no default value of the counter, so there's a shift on load  -->
+						<!-- There is no default value of the counter, so there's a shift on load  -->
 						<!-- ! Current max is 100,000,000 on an iPhone 14 -->
 						<!-- TODO: Fix sizing of counter on phones to handle larger numbers -->
-						<span
-							id="counter"
-							hx-get="/count"
-							hx-trigger="load"
-							hx-swap="innerHTML">
+						<span id="counter" hx-get="/count" hx-swap="innerHTML">
+							1000000000
 						</span>
 					</div>
 					<!-- Button issues a POST request to update count, but swapping is done via WebSocket -->
