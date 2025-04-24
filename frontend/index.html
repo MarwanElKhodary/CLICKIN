@@ -46,7 +46,7 @@
 
 		<script src="/js/vendor/htmx.min.js"></script>
 		<script src="/js/vendor/ws.min.js"></script>
-		<!-- <script src="/js/vendor/response-targets.min.js"></script> -->
+		<script src="/js/vendor/response-targets.min.js"></script>
 
 		<!-- The script below used to be required, but not anymore, not sure why -->
 		<!-- Added because of 'Access to XMLHttpRequest error' -->
@@ -141,10 +141,11 @@
 				</div>
 			</nav>
 
+			<!-- Current state is that there's no error handling if this fails -->
 			<main class="button-container" ws-connect="/ws">
 				<div class="counter-container">
 					<div class="counter-display">
-						<!-- ! What happens if the get request fails? -->
+						<!-- Current state is that there's no error handling if this fails -->
 						<!-- ! Since this is loaded in, there's no default value - kind of jank -->
 						<!-- ! Current max is 100,000,000 on an iPhone 14 -->
 						<!-- TODO: Fix sizing of counter on phones to handle larger numbers -->
@@ -155,8 +156,8 @@
 							hx-swap="innerHTML">
 						</span>
 					</div>
-					<!-- ! Similarly, what happens if this request fails?  -->
 					<!-- Button issues a POST request to update count, but swapping is done via WebSocket -->
+					<!-- Current state is that there's no error handling if this fails -->
 					<button hx-post="/count" hx-swap="none" class="btn">
 						<span class="shadow"></span>
 						<span class="edge"></span>
