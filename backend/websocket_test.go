@@ -94,6 +94,17 @@ func TestBroadcastCount(t *testing.T) {
 // TestClientDisconnection tests that disconnected clients are removed from the clients map.
 // It verifies that when a client closes its connection, it is properly removed from the map.
 func TestClientDisconnection(t *testing.T) {
+	// ! BIG BUG but will be reworked anyways with SSE
+	// --- FAIL: TestClientDisconnection (0.00s)
+	//     utils.go:24: setup test case
+	//     websocket_test.go:118:
+	//                 Error Trace:    C:/Users/Marwan/Desktop/projects/CLICKIN/backend/websocket_test.go:118
+	//                 Error:          Not equal:
+	//                                 expected: -1
+	//                                 actual  : 0
+	//                 Test:           TestClientDisconnection
+	//                 Messages:       Client should be removed from clients map after disconnection
+	//     utils.go:42: teardown test case
 	teardownTestCase := setupTestCase(t)
 	defer teardownTestCase(t)
 
