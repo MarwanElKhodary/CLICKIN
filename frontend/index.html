@@ -149,8 +149,11 @@
 						<!-- There is no default value of the counter, so there's a shift on load  -->
 						<!-- ! Current max is 100,000,000 on an iPhone 14 -->
 						<!-- TODO: Fix sizing of counter on phones to handle larger numbers -->
-						<span id="counter" hx-get="/count" hx-swap="innerHTML">
-							1000000000
+						<span
+							id="counter"
+							hx-get="/count"
+							hx-trigger="load"
+							hx-swap="innerHTML">
 						</span>
 					</div>
 					<!-- Button issues a POST request to update count, but swapping is done via WebSocket -->
