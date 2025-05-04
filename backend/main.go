@@ -29,5 +29,6 @@ func main() {
 	//TODO: Consider separating the router logic to make testing easier
 	handler.SetupRoutes(router)
 
+	// ! Super inconcistent when using on a different device on the same wifi
 	router.Run("0.0.0.0:8080")
 }

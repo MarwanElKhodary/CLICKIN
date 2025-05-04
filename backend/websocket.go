@@ -14,6 +14,7 @@ import (
 //Link: https://medium.com/wisemonks/implementing-websockets-in-golang-d3e8e219733b
 // TODO: Protect against CSWSH - i.e. add wss instead ws
 // TODO: Use secure WebSockets
+// TODO: Add maximum header to WebSockets
 
 // upgrader is used to upgrade HTTP connections to WebSocket connections.
 // It allows all origins for simplicity, but should be restricted in production.

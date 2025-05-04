@@ -3,35 +3,53 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>Click a Button</title>
-		<link rel="stylesheet" href="css/style.css" />
+		<title>CLICKIN</title>
+		<link rel="stylesheet" href="assets/css/style.css" />
 		<meta
 			name="description"
 			content="Click with your friends and watch the number go up" />
 
-		<meta property="og:title" content="Click a Button" />
-		<meta property="og:type" content="website" />
+		<!-- Facebook Meta Tags -->
+		<!-- TODO: Update with actual domain in production -->
 		<meta property="og:url" content="" />
-		<meta property="og:image" content="" />
-		<meta property="og:image:alt" content="" />
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content="CLICKIN" />
+		<meta
+			property="og:description"
+			content="Click with your friends and watch the number go up" />
+		<!-- TODO: Update with actual domain in production -->
+		<meta property="og:image" content="/assets/img/full_banner.png" />
+
+		<!-- Twitter Meta Tags -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<!-- TODO: Update with actual domain in production -->
+		<meta property="twitter:domain" content="" />
+		<!-- TODO: Replace with actual url in production -->
+		<meta property="twitter:url" content="" />
+		<meta name="twitter:title" content="CLICKIN" />
+		<meta
+			name="twitter:description"
+			content="Click with your friends and watch the number go up" />
+		<!-- TODO: Update with actual domain in production -->
+		<meta name="twitter:image" content="/assets/img/full_banner.png" />
 
 		<!-- ! Needed to eliminate htmx:invalidPath errors-->
 		<!-- TODO: Address security risks -->
 		<meta name="htmx-config" content='{"selfRequestsOnly":false}' />
-		<!-- ? What is this?  -->
+
+		<!-- TODO: Replace this with potentially cream color -->
 		<meta name="theme-color" content="#fafafa" />
 
-		<link rel="icon" href="favicon.ico" sizes="any" />
-		<link rel="icon" href="icon.svg" type="image/svg+xml" />
-		<link rel="apple-touch-icon" href="icon.png" />
+		<link rel="icon" href="favicon_v3.ico" sizes="any" />
+		<link rel="icon" href="icon_v2.svg" type="image/svg+xml" />
+		<link rel="apple-touch-icon" href="icon_v3.png" />
 
-		<script src="js/vendor/htmx.min.js"></script>
-		<script src="js/vendor/ws.min.js"></script>
+		<script src="/js/vendor/htmx.min.js"></script>
+		<script src="/js/vendor/ws.min.js"></script>
+		<script src="/js/vendor/response-targets.min.js"></script>
 
 		<!-- The script below used to be required, but not anymore, not sure why -->
-		<!-- ! Added because of 'Access to XMLHttpRequest error' -->
-		<!-- TODO: Remove all extra htmx headers, re-add content-type -->
-		<!-- TODO: Address security risks -->
+		<!-- Added because of 'Access to XMLHttpRequest error' -->
 		<!-- <script>
 			document.body.addEventListener("htmx:configRequest", function (event) {
 				event.detail.headers = "";
@@ -43,7 +61,7 @@
 
 	<body hx-boost="true" hx-ext="ws">
 		<div id="root">
-			<nav class="header-bar">
+			<nav class="header">
 				<div class="header-left">
 					<div class="title-area">
 						<h1 class="header-text">
@@ -51,8 +69,8 @@
 							<a
 								href="https://marwan.world"
 								aria-label="Redirects you to this website again."
-								>Click a Button</a
-							>
+								>CLICKIN
+							</a>
 						</h1>
 						<p class="subtitle">Watch the number go up with your friends</p>
 					</div>
@@ -80,7 +98,7 @@
 						</a>
 						<a
 							href="https://github.com/MarwanElKhodary/simpleSRE"
-							aria-label="This website's source code"
+							aria-label="CLICKIN's source code"
 							target="_blank"
 							rel="no-referrer">
 							<svg
@@ -114,7 +132,7 @@
 							A website by
 							<a
 								href="https://marwan.world"
-								aria-label="My personal website"
+								aria-label="Marwan ElKhodary's personal website"
 								target="_blank"
 								>Marwan
 							</a>
@@ -123,13 +141,14 @@
 				</div>
 			</nav>
 
-			<!-- TODO: Fix spamming this button on phone, currently zooms in too much -->
-			<!-- TODO: Spacing is off on this on phones, it's not exactly in the middle -->
-			<main class="button-container" ws-connect="/ws">
-				<div class="counter-container">
+			<!-- Current state is that there's no error handling if this fails -->
+			<main class="body" ws-connect="/ws">
+				<div class="container">
 					<div class="counter-display">
-						<!-- ! What happens if the get request fails? -->
-						<!-- ! Since this is loaded in, there's no default value - kind of jank -->
+						<!-- Current state is that there's no error handling if this fails -->
+						<!-- There is no default value of the counter, so there's a shift on load  -->
+						<!-- ! Current max is 100,000,000 on an iPhone 14 -->
+						<!-- TODO: Fix sizing of counter on phones to handle larger numbers -->
 						<span
 							id="counter"
 							hx-get="/count"
@@ -137,11 +156,35 @@
 							hx-swap="innerHTML">
 						</span>
 					</div>
-					<!-- ! Similarly, what happens if this request fails?  -->
 					<!-- Button issues a POST request to update count, but swapping is done via WebSocket -->
-					<button hx-post="/count" hx-swap="none" class="btn">Click Me</button>
+					<!-- Current state is that there's no error handling if this fails -->
+					<button hx-post="/count" hx-swap="none" class="btn">
+						<span class="shadow"></span>
+						<span class="edge"></span>
+						<span class="front">CLICK ME</span>
+					</button>
 				</div>
 			</main>
 		</div>
+		<script>
+			document.addEventListener("DOMContentLoaded", function () {
+				const subtitles = [
+					"Watch the number go up with your friends",
+					"Click together, count forever",
+					"Every click counts, literally",
+					"The most satisfying button on the internet",
+					"Join the clickolution",
+					"Click it. You know you want to",
+					"Numbers only go up here",
+					"Collaborative clicking at its finest",
+					"One click closer to infinity",
+					"Making meaningless numbers meaningful since 2025",
+				];
+
+				const subtitle = document.querySelector(".subtitle");
+				const randomIndex = Math.floor(Math.random() * subtitles.length);
+				subtitle.textContent = subtitles[randomIndex];
+			});
+		</script>
 	</body>
 </html>

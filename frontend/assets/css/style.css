@@ -15,6 +15,8 @@ html {
 	color: var(--rock);
 	font-size: 1.2em;
 	line-height: 1.4;
+	touch-action: manipulation;
+	user-select: none;
 }
 
 /*
@@ -24,7 +26,10 @@ html {
  * Customize the background color to match your design.
  */
 
-::-moz-selection {
+/* 
+ * Not needed while user-select: none; 
+*/
+/* ::-moz-selection {
 	background: var(--gasoline);
 	text-shadow: none;
 }
@@ -32,7 +37,7 @@ html {
 ::selection {
 	background: var(--gasoline);
 	text-shadow: none;
-}
+} */
 
 /*
  * A better looking default horizontal rule
@@ -101,7 +106,7 @@ body {
 body {
 	line-height: 1.5;
 	-webkit-font-smoothing: antialiased;
-	font-family: "Futura PT Book", sans-serif;
+	font-family: var(--font-secondary);
 
 	--rock: #2b3333;
 	--gasoline: #cce649;
@@ -185,7 +190,12 @@ h6 {
     Author's custom styles
    ========================================================================== */
 
-.header-bar {
+:root {
+	--font-primary: "SuperPixels", sans-serif;
+	--font-secondary: "Futura PT Book", sans-serif;
+}
+
+.header {
 	background-color: #f0f4f8;
 	display: flex;
 	justify-content: space-between;
@@ -195,7 +205,7 @@ h6 {
 }
 
 .header-text a:link {
-	font-family: "Futura PT Medium", sans-serif;
+	font-family: var(--font-primary);
 	text-decoration: none;
 	color: var(--rock);
 }
@@ -229,8 +239,9 @@ h6 {
 
 .subtitle {
 	margin: 0;
-	color: #4a5568;
+	color: var(--grey);
 }
+
 .icon-container {
 	display: flex;
 	gap: 1rem;
@@ -250,15 +261,15 @@ h6 {
 	color: var(--gasoline);
 }
 
-.button-container {
+.body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	min-height: calc(100vh - 80px);
+	min-height: calc(100vh - 140px); /* Adjusted for mobile header height */
 	background-color: var(--slate-300);
 }
 
-.counter-container {
+.container {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -266,6 +277,7 @@ h6 {
 }
 
 .counter-display {
+	font-family: var(--font-primary);
 	font-size: 6rem;
 	font-weight: bold;
 	color: #2d3748;
@@ -283,29 +295,89 @@ h6 {
 }
 
 /*** Button ***/
+/* 3D Pushable Button Styles from https://www.joshwcomeau.com/animation/3d-button/ */
 .btn {
-	background-color: var(--rock);
-	color: var(--cream);
-	font-family: "Futura PT Heavy", sans-serif;
+	position: relative;
 	border: none;
-	padding: 0.9rem 1.9rem;
-	font-size: 1.2rem;
-	border-radius: 8px;
+	background: transparent;
+	padding: 0;
 	cursor: pointer;
-	transition: all 0.3s ease;
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	outline-offset: 4px;
+	transition: filter 150ms;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+	user-select: none;
+}
+
+.shadow {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	border-radius: 8px;
+	background: hsl(0deg 0% 0% / 0.25);
+	will-change: transform;
+	transform: translateY(2px);
+	transition: transform 150ms cubic-bezier(0.3, 0.7, 0.4, 1);
+	filter: blur(4px);
+}
+
+.edge {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	border-radius: 8px;
+	background: linear-gradient(
+		to left,
+		hsl(206, 15%, 15%) 0%,
+		var(--rock) 8%,
+		var(--rock) 92%,
+		hsl(206, 15%, 15%) 100%
+	);
+}
+
+.front {
+	display: block;
+	position: relative;
+	padding: 0.9rem 1.9rem;
+	border-radius: 8px;
+	font-size: 1.2rem;
+	color: var(--cream);
+	background: var(--rock);
+	will-change: transform;
+	transform: translateY(-4px);
+	transition: transform 150ms cubic-bezier(0.3, 0.7, 0.4, 1);
+	font-family: var(--font-primary);
 }
 
 .btn:hover {
-	background-color: var(--gasoline);
-	color: var(--rock);
-	transform: translateY(-2px);
-	box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+	filter: brightness(110%);
 }
 
-.btn:active {
-	transform: translateY(1px);
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.btn:hover .front {
+	transform: translateY(-6px);
+	transition: transform 150ms cubic-bezier(0.3, 0.7, 0.4, 1.5);
+}
+
+.btn:active .front {
+	transform: translateY(-1px);
+	transition: transform 20ms;
+}
+
+.btn:hover .shadow {
+	transform: translateY(4px);
+	transition: transform 150ms cubic-bezier(0.3, 0.7, 0.4, 1.5);
+}
+
+.btn:active .shadow {
+	transform: translateY(0px);
+	transition: transform 20ms;
+}
+
+.btn:focus:not(:focus-visible) {
+	outline: none;
 }
 
 /*** SVGs ***/
@@ -333,7 +405,12 @@ h6 {
 }
 
 @media only screen and (max-width: 768px) {
-	.header-bar {
+	.body {
+		min-height: calc(100vh - 160px);
+		padding-bottom: 2rem;
+	}
+
+	.header {
 		flex-direction: column;
 		align-items: center;
 		padding: 0.75rem;
@@ -369,11 +446,6 @@ h6 {
 	.counter-display {
 		font-size: clamp(2rem, 8vw, 4rem);
 	}
-
-	.btn {
-		padding: 0.8rem 1.5rem;
-		font-size: 1rem;
-	}
 }
 
 @media only screen and (max-width: 350px) {
@@ -389,55 +461,15 @@ h6 {
 	font-style: normal;
 	font-weight: normal;
 	src: local("Futura PT Book"),
-		url("fonts/FuturaCyrillicBook.woff") format("woff");
+		url("../fonts/FuturaCyrillicBook.woff") format("woff");
 }
 
 @font-face {
-	font-family: "Futura PT Light";
+	font-family: "SuperPixels";
 	font-style: normal;
 	font-weight: normal;
-	src: local("Futura PT Light"),
-		url("fonts/FuturaCyrillicLight.woff") format("woff");
-}
-
-@font-face {
-	font-family: "Futura PT Medium";
-	font-style: normal;
-	font-weight: normal;
-	src: local("Futura PT Medium"),
-		url("fonts/FuturaCyrillicMedium.woff") format("woff");
-}
-
-@font-face {
-	font-family: "Futura PT Demi";
-	font-style: normal;
-	font-weight: normal;
-	src: local("Futura PT Demi"),
-		url("fonts/FuturaCyrillicDemi.woff") format("woff");
-}
-
-@font-face {
-	font-family: "Futura PT Heavy";
-	font-style: normal;
-	font-weight: normal;
-	src: local("Futura PT Heavy"),
-		url("fonts/FuturaCyrillicHeavy.woff") format("woff");
-}
-
-@font-face {
-	font-family: "Futura PT Bold";
-	font-style: normal;
-	font-weight: normal;
-	src: local("Futura PT Bold"),
-		url("fonts/FuturaCyrillicBold.woff") format("woff");
-}
-
-@font-face {
-	font-family: "Futura PT Extra Bold";
-	font-style: normal;
-	font-weight: normal;
-	src: local("Futura PT Extra Bold"),
-		url("fonts/FuturaCyrillicExtraBold.woff") format("woff");
+	src: local("SuperPixels"),
+		url("../fonts/SuperPixels-Regular.ttf") format("truetype");
 }
 
 /* ==========================================================================
