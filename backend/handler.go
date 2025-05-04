@@ -15,7 +15,7 @@ import (
 
 // Handler contains the HTTP handlers and their dependencies.
 // It manages HTTP routes and translates between HTTP requests/responses
-// and the application's service layer.s and their dependencies
+// and the application's service layers and their dependencies
 type Handler struct {
 	service *Service
 }
@@ -56,6 +56,7 @@ func (h *Handler) SetupRoutes(router *gin.Engine) {
 		c.File("../frontend/robots.txt")
 	})
 
+	//TODO: Remove post server side events refactor
 	router.GET("/ws", func(c *gin.Context) {
 		wsHandler(c.Writer, c.Request)
 	})
@@ -70,10 +71,9 @@ func (h *Handler) SetupRoutes(router *gin.Engine) {
 
 	// Added to mitigate css issues if user navigates to the url below
 	// Current known issue is when the user goes to /assets/ it shows a blank screen
-	// ? Not sure if this is even an issue
 	router.GET("/frontend/*any", func(c *gin.Context) {
+		// ? Not sure if this is even an issue
 		c.Redirect(http.StatusMovedPermanently, "/")
-
 	})
 
 	router.GET("/count", h.getCountHandler)

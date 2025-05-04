@@ -94,3 +94,4 @@ SELECT SUM(count) as count FROM count_table;
 - Definitely need to think about [most common security vulnerabilites](https://owasp.org/www-project-top-ten/) soon
   - [Good resource](https://senowijayanto.medium.com/securing-your-go-backend-encryption-vulnerability-prevention-and-more-3fc980f45a8f) on securing Go backend via encryption - which is #2
 - `ngrok http http://localhost:8080` amazing to access apps on other devices [ngrok](https://dashboard.ngrok.com/get-started/setup/macos) amazing service
+- [Amazing resource](https://threedots.tech/post/live-website-updates-go-sse-htmx/) on live website updates with Go, SSE and htmx
