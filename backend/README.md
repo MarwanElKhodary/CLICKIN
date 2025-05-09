@@ -101,3 +101,14 @@ SELECT SUM(count) as count FROM count_table;
   - [Good resource](https://senowijayanto.medium.com/securing-your-go-backend-encryption-vulnerability-prevention-and-more-3fc980f45a8f) on securing Go backend via encryption - which is #2
 - `ngrok http http://localhost:8080` amazing to access apps on other devices [ngrok](https://dashboard.ngrok.com/get-started/setup/macos) amazing service
 - [Amazing resource](https://threedots.tech/post/live-website-updates-go-sse-htmx/) on live website updates with Go, SSE and htmx
+- Consider using nginx to keep HTTP connections secure according [to this](https://stackoverflow.com/questions/61324875/websocket-over-tls-golang-gorilla)
+- [Good info](https://lucumr.pocoo.org/2012/9/24/websockets-101/) on websockets - need to make sure you understand this while making it secure
+  - Got the above from [this](https://devcenter.heroku.com/articles/websocket-security#authentication-authorization) which generally says this:
+        - When the client-side code decides to open a WebSocket, it contacts the HTTP server to obtain an authorization “ticket”.
+        - The server generates this ticket. It typically contains some sort of user/account ID, the IP of the client requesting the ticket, a timestamp, and any other sort of internal record keeping you might need.
+        - The server stores this ticket (i.e. in a database or cache), and also returns it to the client.
+        - The client opens the WebSocket connection, and sends along this “ticket” as part of an initial handshake.
+        - The server can then compare this ticket, check source IPs, verify that the ticket hasn’t been re-used and hasn’t expired, and do any other sort of permission checking. If all goes well, the WebSocket connection is now verified.
+- On deploying can follow [this](https://medium.com/wisemonks/implementing-websockets-in-golang-d3e8e219733b)
+  - Setup a reverse proxy like Nginx to handle SSL termination and forward WebSocket connections to server
+  - Obtain a certificate for the domain and congfigure Nginx to use it and then I guess you gotta do something [like this](https://pkg.go.dev/net/http): `http.ListenAndServeTLS(":8443", "cert.pem", "key.pem", nil)`
