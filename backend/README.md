@@ -13,6 +13,12 @@
   - `use simple_sre_db;`
   - `source C:/Users/Marwan/Desktop/projects/simpleSRE/backend/create-tables.sql;`
 
+## Decisions
+
+- No error handling on the frontend
+- Counter updates are initiated via POST requests and broadcasted via WebSockets
+  - Revisit Server Sent Events if need be
+
 ### Notes
 
 - [Creating counter table in MySQL](https://dba.stackexchange.com/questions/51736/counter-table-in-mysql)
