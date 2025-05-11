@@ -15,6 +15,7 @@ import (
 // TODO: Protect against CSWSH - i.e. add wss instead ws
 // TODO: Use secure WebSockets
 // TODO: Add maximum header to WebSockets
+// TODO: Refactor based off of https://www.youtube.com/watch?v=pKpKv9MKN-E
 
 // upgrader is used to upgrade HTTP connections to WebSocket connections.
 // It allows all origins for simplicity, but should be restricted in production.
@@ -24,6 +25,13 @@ var upgrader = websocket.Upgrader{
 		return true
 	},
 }
+
+// var upgrader = websocket.Upgrader{
+//     CheckOrigin: func(r *http.Request) bool {
+//        origin := r.Header.Get("Origin")
+//        return origin == "<http://yourdomain.com>"
+//     },
+// }
 
 // clients is a map that associates WebSocket connections with boolean values.
 var clients = make(map[*websocket.Conn]bool)

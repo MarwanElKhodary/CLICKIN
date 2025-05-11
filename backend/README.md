@@ -13,6 +13,12 @@
   - `use simple_sre_db;`
   - `source C:/Users/Marwan/Desktop/projects/simpleSRE/backend/create-tables.sql;`
 
+## Decisions
+
+- No error handling on the frontend
+- Counter updates are initiated via POST requests and broadcasted via WebSockets
+  - Revisit Server Sent Events if need be
+
 ### Notes
 
 - [Creating counter table in MySQL](https://dba.stackexchange.com/questions/51736/counter-table-in-mysql)
@@ -98,3 +104,14 @@ SELECT SUM(count) as count FROM count_table;
 - Refactor your repository pattern to look more [like this](https://threedots.tech/post/repository-pattern-in-go/) IF NEED BE
 - According to [this](https://stackoverflow.com/questions/5195452/websockets-vs-server-sent-events-eventsource), SSE make more sense for stock ticker streaming, twitter feed updating, notifications to browser and there's a maximum connections
 - Another [SSE vs Websockets blog](https://germano.dev/sse-websockets#sse)
+- Consider using nginx to keep HTTP connections secure according [to this](https://stackoverflow.com/questions/61324875/websocket-over-tls-golang-gorilla)
+- [Good info](https://lucumr.pocoo.org/2012/9/24/websockets-101/) on websockets - need to make sure you understand this while making it secure
+  - Got the above from [this](https://devcenter.heroku.com/articles/websocket-security#authentication-authorization) which generally says this:
+        - When the client-side code decides to open a WebSocket, it contacts the HTTP server to obtain an authorization “ticket”.
+        - The server generates this ticket. It typically contains some sort of user/account ID, the IP of the client requesting the ticket, a timestamp, and any other sort of internal record keeping you might need.
+        - The server stores this ticket (i.e. in a database or cache), and also returns it to the client.
+        - The client opens the WebSocket connection, and sends along this “ticket” as part of an initial handshake.
+        - The server can then compare this ticket, check source IPs, verify that the ticket hasn’t been re-used and hasn’t expired, and do any other sort of permission checking. If all goes well, the WebSocket connection is now verified.
+- On deploying can follow [this](https://medium.com/wisemonks/implementing-websockets-in-golang-d3e8e219733b)
+  - Setup a reverse proxy like Nginx to handle SSL termination and forward WebSocket connections to server
+  - Obtain a certificate for the domain and congfigure Nginx to use it and then I guess you gotta do something [like this](https://pkg.go.dev/net/http): `http.ListenAndServeTLS(":8443", "cert.pem", "key.pem", nil)`

@@ -11,8 +11,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// ? What does c *gin.Context do here?
-
 // Handler contains the HTTP handlers and their dependencies.
 // It manages HTTP routes and translates between HTTP requests/responses
 // and the application's service layers and their dependencies
@@ -56,7 +54,6 @@ func (h *Handler) SetupRoutes(router *gin.Engine) {
 		c.File("../frontend/robots.txt")
 	})
 
-	//TODO: Remove post server side events refactor
 	router.GET("/ws", func(c *gin.Context) {
 		wsHandler(c.Writer, c.Request)
 	})
