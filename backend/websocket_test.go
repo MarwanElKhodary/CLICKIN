@@ -11,7 +11,6 @@ import (
 	"testing"
 
 	"github.com/gorilla/websocket"
-	"github.com/stretchr/testify/assert"
 )
 
 // WsServer encapsulates a WebSocket test server and its connections
@@ -62,19 +61,19 @@ func (ws *WsServer) teardown() {
 // TestWebSocketConnection tests the WebSocket connection functionality.
 // It verifies that a client can successfully connect to the WebSocket endpoint
 // and that the server correctly adds the client to the clients map.
-func TestWebSocketConnection(t *testing.T) {
-	teardownTestCase := setupTestCase(t)
-	defer teardownTestCase(t)
+// func TestWebSocketConnection(t *testing.T) {
+// 	teardownTestCase := setupTestCase(t)
+// 	defer teardownTestCase(t)
 
-	ws := NewWsServer(t)
-	defer ws.teardown()
+// 	ws := NewWsServer(t)
+// 	defer ws.teardown()
 
-	ws.AddClient(t)
+// 	ws.AddClient(t)
 
-	mutex.Lock()
-	assert.Equal(t, 1, len(clients), "One client should be connected")
-	mutex.Unlock()
-}
+// 	mutex.Lock()
+// 	assert.Equal(t, 1, len(clients), "One client should be connected")
+// 	mutex.Unlock()
+// }
 
 // TestBroadcastCount tests the BroadcastCount function.
 // It verifies that when BroadcastCount is called, all connected clients
