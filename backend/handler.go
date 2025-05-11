@@ -11,8 +11,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//TODO:
-
 // Handler contains the HTTP handlers and their dependencies.
 // It manages HTTP routes and translates between HTTP requests/responses
 // and the application's service layers and their dependencies
