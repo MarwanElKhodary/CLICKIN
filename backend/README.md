@@ -96,3 +96,5 @@ SELECT SUM(count) as count FROM count_table;
 - `ngrok http http://localhost:8080` amazing to access apps on other devices [ngrok](https://dashboard.ngrok.com/get-started/setup/macos) amazing service
 - [Amazing resource](https://threedots.tech/post/live-website-updates-go-sse-htmx/) on live website updates with Go, SSE and htmx
 - Refactor your repository pattern to look more [like this](https://threedots.tech/post/repository-pattern-in-go/) IF NEED BE
+- According to [this](https://stackoverflow.com/questions/5195452/websockets-vs-server-sent-events-eventsource), SSE make more sense for stock ticker streaming, twitter feed updating, notifications to browser and there's a maximum connections
+- Another [SSE vs Websockets blog](https://germano.dev/sse-websockets#sse)
