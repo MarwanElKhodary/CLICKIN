@@ -5,11 +5,16 @@ package main
 
 import (
 	"database/sql"
+	"net/http"
+	"net/http/httptest"
 	"os"
+	"strings"
+	"sync"
 	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/gin-gonic/gin"
+	"github.com/gorilla/websocket"
 )
 
 type TestSuite struct {
@@ -19,9 +24,37 @@ type TestSuite struct {
 	Repo    *Repository
 	Serv    *Service
 	Handler *Handler
+
+	WsServer  *httptest.Server
+	WsUrl     string
+	WsClients []*websocket.Conn
+	WsMutex   sync.Mutex
 }
 
 var testSuite *TestSuite
+
+// InitWebSocketServer initializes the WebSocket test server
+func (ts *TestSuite) InitWebSocketServer() {
+	ts.WsServer = httptest.NewServer(http.HandlerFunc(wsHandler))
+	// Convert http://127.0.0.1 to ws://127.0.0.
+	ts.WsUrl = "ws" + strings.TrimPrefix(ts.WsServer.URL, "http")
+	ts.WsClients = make([]*websocket.Conn, 0)
+}
+
+// AddWsClient creates and returns new WebSocket client connection
+// The new client is added to TestSuite.WsClients
+func (ts *TestSuite) AddWsClient() *websocket.Conn {
+	conn, _, err := websocket.DefaultDialer.Dial(ts.WsUrl, nil)
+	if err != nil {
+		panic("Failed to create a mock database: " + err.Error())
+	}
+
+	ts.WsMutex.Lock()
+	ts.WsClients = append(ts.WsClients, conn)
+	ts.WsMutex.Unlock()
+
+	return conn
+}
 
 // TestMain is called once before any tests are run
 func TestMain(m *testing.M) {
@@ -57,6 +90,8 @@ func setupTestSuite() (*TestSuite, func()) {
 		Serv:    service,
 		Handler: handler,
 	}
+
+	suite.InitWebSocketServer()
 
 	return suite, func() {
 		db.Close()

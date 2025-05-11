@@ -4,76 +4,22 @@
 package main
 
 import (
-	"net/http"
-	"net/http/httptest"
-	"strings"
-	"sync"
 	"testing"
 
-	"github.com/gorilla/websocket"
+	"github.com/stretchr/testify/assert"
 )
-
-// WsServer encapsulates a WebSocket test server and its connections
-type WsServer struct {
-	Server  *httptest.Server
-	Url     string
-	Clients []*websocket.Conn // ? Shouldn't this be a map
-	Mutex   sync.Mutex
-}
-
-// NewWsServer creates a new WebSocket test server
-func NewWsServer(t *testing.T) *WsServer {
-	s := httptest.NewServer(http.HandlerFunc(wsHandler))
-
-	// Convert http://127.0.0.1 to ws://127.0.0.
-	u := "ws" + strings.TrimPrefix(s.URL, "http")
-
-	return &WsServer{
-		Server: s,
-		Url:    u,
-	}
-}
-
-// AddClient creates a new WebSocket client connection
-func (ws *WsServer) AddClient(t *testing.T) *websocket.Conn {
-	conn, _, err := websocket.DefaultDialer.Dial(ws.Url, nil)
-	if err != nil {
-		t.Fatalf("Could not connect to WebSocket server: %v", err)
-	}
-
-	ws.Mutex.Lock()
-	ws.Clients = append(ws.Clients, conn)
-	ws.Mutex.Unlock()
-
-	return conn
-}
-
-// teardown closes all client connections and shuts down the WebSocket server
-func (ws *WsServer) teardown() {
-	ws.Mutex.Lock()
-	for _, conn := range ws.Clients {
-		conn.Close()
-	}
-	ws.Mutex.Unlock()
-	ws.Server.Close()
-}
 
 // TestWebSocketConnection tests the WebSocket connection functionality.
 // It verifies that a client can successfully connect to the WebSocket endpoint
 // and that the server correctly adds the client to the clients map.
-// func TestWebSocketConnection(t *testing.T) {
-// 	teardownTestCase := setupTestCase(t)
-// 	defer teardownTestCase(t)
+func TestWebSocketConnection(t *testing.T) {
+	client := testSuite.AddWsClient()
+	defer client.Close()
 
-// 	ws := NewWsServer(t)
-// 	defer ws.teardown()
-
-// 	ws.AddClient(t)
-
-// 	mutex.Lock()
-// 	assert.Equal(t, 1, len(clients), "One client should be connected")
-// 	mutex.Unlock()
-// }
+	mutex.Lock()
+	assert.Equal(t, 1, len(clients), "One client should be connected")
+	mutex.Unlock()
+}
 
 // TestBroadcastCount tests the BroadcastCount function.
 // It verifies that when BroadcastCount is called, all connected clients
