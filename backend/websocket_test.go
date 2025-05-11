@@ -19,6 +19,7 @@ func TestWebSocketConnection(t *testing.T) {
 	mutex.Lock()
 	assert.Equal(t, 1, len(clients), "One client should be connected")
 	mutex.Unlock()
+	//TODO: Add a testSuite.ClearWsClients() here
 }
 
 // TestBroadcastCount tests the BroadcastCount function.
