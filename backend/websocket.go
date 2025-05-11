@@ -33,7 +33,7 @@ var upgrader = websocket.Upgrader{
 //     },
 // }
 
-// clients is a map that associates WebSocket connections with boolean values.
+// clients is a map of websocket connections
 var clients = make(map[*websocket.Conn]bool)
 
 // broadcast channel to all connected clients.
