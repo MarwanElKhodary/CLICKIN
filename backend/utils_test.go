@@ -27,7 +27,7 @@ type TestSuite struct {
 
 	WsServer  *httptest.Server
 	WsUrl     string
-	WsClients []*websocket.Conn
+	WsClients []*websocket.Conn // ! Don't think this is needed
 	WsMutex   sync.Mutex
 }
 
@@ -46,7 +46,7 @@ func (ts *TestSuite) InitWebSocketServer() {
 func (ts *TestSuite) AddWsClient() *websocket.Conn {
 	conn, _, err := websocket.DefaultDialer.Dial(ts.WsUrl, nil)
 	if err != nil {
-		panic("Failed to create a mock database: " + err.Error())
+		panic("Failed to create a mock database: " + err.Error()) // ! This error message is wrong
 	}
 
 	ts.WsMutex.Lock()
