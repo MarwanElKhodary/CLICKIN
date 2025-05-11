@@ -92,12 +92,12 @@ func TestSameSlots(t *testing.T) {
 	})
 }
 
-// // TODO: Add new test for the conditions below
-// // Connect 2 separate devices
-// // Increment both devices randomly
-// // At some point, disconnect one device, and increment on it
-// // Make sure there's no incrementing on the client side if there's no wifi
+// TODO: Add new test for the conditions below
+// Connect 2 separate devices
+// Increment both devices randomly
+// At some point, disconnect one device, and increment on it
+// Make sure there's no incrementing on the client side if there's no wifi
 
-// // TODO: Add test to ensure that the lastInsertId doesnt fail
-// // Provided that the database starts at 0, always increments by 1
-// // And the button only increments by 1
+// TODO: Add test to ensure that the lastInsertId doesnt fail
+// Provided that the database starts at 0, always increments by 1
+// And the button only increments by 1
