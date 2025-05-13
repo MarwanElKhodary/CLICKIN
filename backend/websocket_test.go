@@ -4,8 +4,11 @@
 package main
 
 import (
+	"fmt"
+	"sync"
 	"testing"
 
+	"github.com/gorilla/websocket"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -25,53 +28,36 @@ func TestWebSocketConnection(t *testing.T) {
 // TestBroadcastCount tests the BroadcastCount function.
 // It verifies that when BroadcastCount is called, all connected clients
 // receive the updated count via WebSocket.
-// func TestBroadcastCount(t *testing.T) {
-// 	teardownTestCase := setupTestCase(t)
-// 	defer teardownTestCase(t)
+func TestBroadcastCount(t *testing.T) {
+	connOne := testSuite.AddWsClient()
+	connTwo := testSuite.AddWsClient()
 
-// 	s := httptest.NewServer(http.HandlerFunc(wsHandler))
-// 	defer s.Close()
+	var wg sync.WaitGroup
+	wg.Add(2)
 
-// 	// Convert http://127.0.0.1 to ws://127.0.0.
-// 	wsURL := "ws" + strings.TrimPrefix(s.URL, "http")
+	testCount := 69
+	expectedMsg := fmt.Sprintf("<span id=\"counter\">%d</span>", testCount)
 
-// 	conn1, _, err := websocket.DefaultDialer.Dial(wsURL, nil)
-// 	if err != nil {
-// 		t.Fatalf("Could not connect to WebSocket server: %v", err)
-// 	}
-// 	defer conn1.Close()
+	readMessage := func(conn *websocket.Conn) {
+		defer wg.Done()
 
-// 	conn2, _, err := websocket.DefaultDialer.Dial(wsURL, nil)
-// 	if err != nil {
-// 		t.Fatalf("Could not connect to WebSocket server: %v", err)
-// 	}
-// 	defer conn2.Close()
+		_, msg, err := conn.ReadMessage()
+		if err != nil {
+			t.Errorf("Error reading message: %v", err)
+			return
+		}
 
-// 	var wg sync.WaitGroup
-// 	wg.Add(2)
+		assert.Equal(t, expectedMsg, string(msg), "Client receive the correct broadcast message")
+	}
 
-// 	testCount := 69
-// 	expectedMsg := fmt.Sprintf("<span id=\"counter\">%d</span>", testCount)
+	go readMessage(connOne)
+	go readMessage(connTwo)
 
-// 	readMessage := func(conn *websocket.Conn) {
-// 		defer wg.Done()
+	BroadcastCount(testCount)
 
-// 		_, msg, err := conn.ReadMessage()
-// 		if err != nil {
-// 			t.Errorf("Error reading message: %v", err)
-// 			return
-// 		}
-
-// 		assert.Equal(t, expectedMsg, string(msg), "Client receive the correct broadcast message")
-// 	}
-
-// 	go readMessage(conn1)
-// 	go readMessage(conn2)
-
-// 	BroadcastCount(testCount)
-
-// 	wg.Wait()
-// }
+	wg.Wait()
+	// TODO: Add clear clients here
+}
 
 // TestClientDisconnection tests that disconnected clients are removed from the clients map.
 // It verifies that when a client closes its connection, it is properly removed from the map.
