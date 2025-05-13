@@ -6,6 +6,7 @@ package main
 import (
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/gorilla/websocket"
 	"github.com/stretchr/testify/assert"
@@ -15,7 +16,7 @@ import (
 // It verifies that a client can successfully connect to the WebSocket endpoint
 // and that the server correctly adds the client to the clients map.
 func TestWebSocketConnection(t *testing.T) {
-	client := testSuite.AddWsClient()
+	client := testSuite.CreateWsClient()
 	defer client.Close()
 
 	mutex.Lock()
@@ -28,11 +29,12 @@ func TestWebSocketConnection(t *testing.T) {
 // It verifies that when BroadcastCount is called, all connected clients
 // receive the updated count via WebSocket.
 func TestBroadcastCount(t *testing.T) {
-	connOne := testSuite.AddWsClient()
-	connTwo := testSuite.AddWsClient()
+	connOne := testSuite.CreateWsClient()
+	connTwo := testSuite.CreateWsClient()
 
 	testCount := 69
 	expectedMsg := fmt.Sprintf("<span id=\"counter\">%d</span>", testCount)
+	msgChan := make(chan string, 2)
 
 	readMessage := func(conn *websocket.Conn) {
 		_, msg, err := conn.ReadMessage()
@@ -40,15 +42,25 @@ func TestBroadcastCount(t *testing.T) {
 			t.Errorf("Error reading message: %v", err)
 			return
 		}
-
-		assert.Equal(t, expectedMsg, string(msg), "Client receive the correct broadcast message")
+		msgChan <- string(msg)
 	}
 
 	go readMessage(connOne)
 	go readMessage(connTwo)
 
 	BroadcastCount(testCount)
-	// TODO: Add clear clients here
+
+	received := []string{}
+	for i := range 2 {
+		select {
+		case msg := <-msgChan:
+			received = append(received, msg)
+		case <-time.After(2 * time.Second):
+			t.Fatalf("Timeout waiting for message %d", i)
+		}
+	}
+
+	assert.Contains(t, received, expectedMsg)
 }
 
 // TestClientDisconnection tests that disconnected clients are removed from the clients map.

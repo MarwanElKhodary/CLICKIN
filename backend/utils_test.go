@@ -40,7 +40,7 @@ func (ts *TestSuite) InitWebSocketServer() {
 }
 
 // AddWsClient creates and returns new WebSocket client connection
-func (ts *TestSuite) AddWsClient() *websocket.Conn {
+func (ts *TestSuite) CreateWsClient() *websocket.Conn {
 	conn, _, err := websocket.DefaultDialer.Dial(ts.WsUrl, nil)
 	if err != nil {
 		panic("Failed to create a new client connection: " + err.Error())
