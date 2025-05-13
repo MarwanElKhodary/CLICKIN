@@ -25,10 +25,9 @@ type TestSuite struct {
 	Serv    *Service
 	Handler *Handler
 
-	WsServer  *httptest.Server
-	WsUrl     string
-	WsClients []*websocket.Conn // ! Don't think this is needed
-	WsMutex   sync.Mutex
+	WsServer *httptest.Server
+	WsUrl    string
+	WsMutex  sync.Mutex
 }
 
 var testSuite *TestSuite
@@ -38,20 +37,14 @@ func (ts *TestSuite) InitWebSocketServer() {
 	ts.WsServer = httptest.NewServer(http.HandlerFunc(wsHandler))
 	// Convert http://127.0.0.1 to ws://127.0.0.
 	ts.WsUrl = "ws" + strings.TrimPrefix(ts.WsServer.URL, "http")
-	ts.WsClients = make([]*websocket.Conn, 0)
 }
 
 // AddWsClient creates and returns new WebSocket client connection
-// The new client is added to TestSuite.WsClients
 func (ts *TestSuite) AddWsClient() *websocket.Conn {
 	conn, _, err := websocket.DefaultDialer.Dial(ts.WsUrl, nil)
 	if err != nil {
-		panic("Failed to create a mock database: " + err.Error()) // ! This error message is wrong
+		panic("Failed to create a new client connection: " + err.Error())
 	}
-
-	ts.WsMutex.Lock()
-	ts.WsClients = append(ts.WsClients, conn)
-	ts.WsMutex.Unlock()
 
 	return conn
 }
@@ -93,6 +86,7 @@ func setupTestSuite() (*TestSuite, func()) {
 
 	suite.InitWebSocketServer()
 
+	// teardown
 	return suite, func() {
 		db.Close()
 	}
