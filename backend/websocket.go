@@ -42,7 +42,7 @@ var broadcast = make(chan []byte)
 // mutex protects the connected clients' map.
 var mutex = &sync.Mutex{}
 
-// BroadcastCount sends the current count to the broadcast.
+// BroadcastCount sends the current count to the broadcast channel.
 func BroadcastCount(count int) {
 	message := fmt.Sprintf("<span id=\"counter\">%d</span>", count)
 	// ! Here should you being crypto it? Like hash and unshash.

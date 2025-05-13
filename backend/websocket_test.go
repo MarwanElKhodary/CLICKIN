@@ -5,7 +5,6 @@ package main
 
 import (
 	"fmt"
-	"sync"
 	"testing"
 
 	"github.com/gorilla/websocket"
@@ -32,15 +31,10 @@ func TestBroadcastCount(t *testing.T) {
 	connOne := testSuite.AddWsClient()
 	connTwo := testSuite.AddWsClient()
 
-	var wg sync.WaitGroup
-	wg.Add(2)
-
 	testCount := 69
 	expectedMsg := fmt.Sprintf("<span id=\"counter\">%d</span>", testCount)
 
 	readMessage := func(conn *websocket.Conn) {
-		defer wg.Done()
-
 		_, msg, err := conn.ReadMessage()
 		if err != nil {
 			t.Errorf("Error reading message: %v", err)
@@ -54,8 +48,6 @@ func TestBroadcastCount(t *testing.T) {
 	go readMessage(connTwo)
 
 	BroadcastCount(testCount)
-
-	wg.Wait()
 	// TODO: Add clear clients here
 }
 
