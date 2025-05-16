@@ -16,6 +16,7 @@ import (
 // It verifies that a client can successfully connect to the WebSocket endpoint
 // and that the server correctly adds the client to the clients map.
 func TestWebSocketConnection(t *testing.T) {
+	fmt.Printf("testWebSocketConnection: %d\n", len(clients))
 	client := testSuite.CreateWsClient()
 	defer client.Close()
 
@@ -29,8 +30,11 @@ func TestWebSocketConnection(t *testing.T) {
 // It verifies that when BroadcastCount is called, all connected clients
 // receive the updated count via WebSocket.
 func TestBroadcastCount(t *testing.T) {
+	fmt.Printf("testBroadcastCount: %d\n", len(clients))
 	connOne := testSuite.CreateWsClient()
 	connTwo := testSuite.CreateWsClient()
+	defer connOne.Close()
+	defer connTwo.Close()
 
 	testCount := 69
 	expectedMsg := fmt.Sprintf("<span id=\"counter\">%d</span>", testCount)
@@ -65,34 +69,20 @@ func TestBroadcastCount(t *testing.T) {
 
 // TestClientDisconnection tests that disconnected clients are removed from the clients map.
 // It verifies that when a client closes its connection, it is properly removed from the map.
-// func TestClientDisconnection(t *testing.T) {
-// 	// Move all this server logic stuff to another function
-// 	// Only focus on the logic here
-// 	// Use an equivalent of await
-// 	teardownTestCase := setupTestCase(t)
-// 	defer teardownTestCase(t)
+func TestClientDisconnection(t *testing.T) {
+	fmt.Printf("testClientDisconnection: %d\n", len(clients))
+	conn := testSuite.CreateWsClient()
 
-// 	s := httptest.NewServer(http.HandlerFunc(wsHandler))
-// 	defer s.Close()
+	mutex.Lock()
+	initialClientCount := len(clients)
+	mutex.Unlock()
 
-// 	// Convert http://127.0.0.1 to ws://127.0.0.
-// 	wsURL := "ws" + strings.TrimPrefix(s.URL, "http")
+	conn.Close()
 
-// 	conn, _, err := websocket.DefaultDialer.Dial(wsURL, nil)
-// 	if err != nil {
-// 		t.Fatalf("Could not connect to WebSocket server: %v", err)
-// 	}
-
-// 	mutex.Lock()
-// 	initialClientCount := len(clients)
-// 	mutex.Unlock()
-
-// 	conn.Close()
-
-// 	mutex.Lock()
-// 	assert.Equal(t, initialClientCount-1, len(clients), "Client should be removed from clients map after disconnection")
-// 	mutex.Unlock()
-// }
+	mutex.Lock()
+	assert.Equal(t, initialClientCount-1, len(clients), "Client should be removed from clients map after disconnection")
+	mutex.Unlock()
+}
 
 // TestMultipleBroadcasts tests that multiple broadcasts work correctly.
 // It verifies that when multiple BroadcastCount calls are made in succession,

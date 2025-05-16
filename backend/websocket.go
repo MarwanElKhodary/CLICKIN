@@ -73,20 +73,25 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Error upgrading to websocket: ", err)
 		return
 	}
-	defer conn.Close()
 
 	mutex.Lock()
 	clients[conn] = true
 	mutex.Unlock()
 
+	// Make sure connection gets cleaned up
+	defer func() {
+		mutex.Lock()
+		delete(clients, conn)
+		conn.Close()
+		mutex.Unlock()
+	}()
+
 	// While there is no need to process incoming messages from the client as it's handled by POST requests,
 	// this detects when the client disconnects and handles the removal of the disconnected clients
+	// Read messages until an error occurs
 	for {
 		_, _, err := conn.ReadMessage()
 		if err != nil {
-			mutex.Lock()
-			delete(clients, conn)
-			mutex.Unlock()
 			break
 		}
 	}
